@@ -1,0 +1,126 @@
+.super-container{
+    font-family: 'Muli', serif;
+}
+
+/* Left-side */
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.userpage-sidebar-menu .item  {
+    margin-bottom: 15px;
+}
+
+.userpage-sidebar-menu .item a {
+    color: black;
+}
+
+.userpage-sidebar-menu .item span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.userpage-sidebar-menu .item .item-container {
+    margin-left: 15px;
+}
+
+
+
+/* Rignt-side */
+
+.userpage-content {
+    font-family: 'Muli', serif;
+}
+
+.userpage-content .title {
+    font-size: 1.7em;
+    font-weight: bold;
+} 
+
+.info_form .item {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    
+}
+
+.info_form .head-item {
+    width: 20%;
+    text-align: right;
+}
+
+.info_form .content-item {
+    width: 80%;
+    margin-left: 20px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.info_form .content-item p {
+    display: flex;
+    align-items: center;
+}
+
+.info_form .content-item input {
+    box-sizing: border-box;
+    width: 100%;
+
+    background-color: transparent;
+    border: 1px solid #999999;
+    border-radius: 0;
+    line-height: 18px;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #7a7a7a;
+}
+
+
+.info_form .gender .content-item input {
+    width: auto;
+    margin: 10px;
+}
+
+.submit {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+	display: flex;
+	margin-top: 40px;
+	width: auto;
+	border-radius: 0;
+	height: 36px;
+	border: none;
+	line-height: 24px;
+	padding: 6px 20px;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: #ffffff;
+	background-color: #363f4d;
+	border-radius: 3px;
+	transition: all 0.3s ease-in-out;
+}
+
+.submit-button:hover {
+	background: #2d78f0;
+}
+
+
+.avatar_change input {
+    width: 35%;
+}
+
+.avatar_change img{
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+

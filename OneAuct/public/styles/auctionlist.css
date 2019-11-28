@@ -1,0 +1,33 @@
+.card {
+    width: 850px;
+}
+
+
+.view-auction {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.card-header {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.card-boyd .text {
+    width: 70%;
+}
+
+.card-body span {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: rgb(80, 78, 238);
+}
+
+.card-body .time {
+    font-style: italic;
+}
+
+.view_auction_2 {
+    text-align: right;
+}
