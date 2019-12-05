@@ -1,17 +1,17 @@
 const   express = require('express'),
         exhbs = require('express-handlebars'),
-        app = express(),
-        path = require('path');
+        app = express();
+
+app.use(express.static('public'));
 
 app.engine('hbs', exhbs({
     defaultLayout: 'main.hbs',
-    layoutDir: 'views/layouts',
-
+    //layoutsDir: 'views/_layouts'
 }));
 
 app.set('view engine', 'hbs');
-// app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use(express.static('public'));
+
+
 
 app.get('/',(req,res) => {
     res.render('home', {
@@ -21,24 +21,37 @@ app.get('/',(req,res) => {
     });
 });
 
-
 app.get('/shop', (req,res) => {
     res.render('shop', {
         title: 'Shop',
         style: 'shop_styles.css',
-        style_responsive: 'shop_responsive.css'});
+        style_responsive: 'shop_responsive.css'
+    });
 });
 
 app.get('/product', (req,res) => {
-    res.render('product-detail');
+    res.render('product-detail', {
+        title: 'Product Detail',
+        style: 'product_styles.css',
+        style_responsive: 'product_responsive.css'
+    });
 });
 
 app.get('/register', (req,res) => {
-    res.render('register');
+    res.render('register', {
+        title: 'Register',
+        style_specific: 'register.css',
+        style: 'product_styles.css',
+        style_responsive: 'product_responsive.css'
+    });
 });
 
 app.get('/blog', (req,res) => {
-    res.render('blog');
+    res.render('blog', {
+        title: 'Blog',
+        style: 'blog_styles.css',
+        style_responsive: 'blog_responsive.css'
+    });
 });
 
 app.get('/blogdetail', (req,res) => {
@@ -46,14 +59,27 @@ app.get('/blogdetail', (req,res) => {
 });
 
 app.get('/wishlist', (req,res) => {
-    res.render('wish-list');
+    res.render('wish-list', {
+        title: 'Wish List',
+        style_specific: 'wishlist.css',
+        style: 'product_styles.css',
+        style_responsive: 'product_responsive.css'
+    });
 });
 
 app.get('/contact', (req,res) => {
     res.render('contact');
 });
 
-
+app.get('/account',(req,res) => {
+    res.render('user-categories/user-account', {
+        title: 'User Account',
+        layout: 'user-categories',
+        style_specific: 'account.css',
+        style: 'product_styles.css',
+        style_responsive: 'product_responsive.css'
+    });
+});
 
 app.listen(3000, () => {
     console.log("Server is running ...");

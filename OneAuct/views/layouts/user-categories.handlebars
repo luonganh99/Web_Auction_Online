@@ -2,35 +2,23 @@
 
 <html lang="en">
 <head>
-<title>blabla</title>
+<title> {{title}} </title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="OneAunct shop project">
+<meta name="description" content="OneTech shop project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="/static/styles/bootstrap4/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Muli:400,700,900&display=swap&subset=vietnamese" rel="stylesheet">
-<link href="/static/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/animate.css">
-<link rel="stylesheet" type="text/css" href="/static/plugins/slick-1.8.0/slick.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/main_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/responsive.css">
-<link rel="stylesheet" type="text/css" href="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/shop_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/shop_responsive.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/product_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/product_responsive.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/register.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/blog_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/blog_responsive.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/wishlist.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/blog_single_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/blog_single_responsive.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/contact_styles.css">
-<link rel="stylesheet" type="text/css" href="/static/styles/contact_responsive.css">
-</head>
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="plugins/slick-1.8.0/slick.css">
+<link rel="stylesheet" type="text/css" href="styles/{{style}}">
+<link rel="stylesheet" type="text/css" href="styles/{{style_responsive}}">
+<link rel="stylesheet" type="text/css" href="styles/{{style_specific}}">
 
+</head>
 <body>
 
 
@@ -384,11 +372,97 @@
 			</div>
 	
 		</header>
-
-
 	
-		{{{body}}}
-	
+		<div class="user">
+			<div class="container">
+				<div class="row mt-5">
+		
+					{{!-- Left user categories --}}
+		
+					<div class="userpage-sidebar col-3">
+						<div class="userpage-brief d-flex flex-row">
+							<a href="#" class="mr-4">
+								<div>
+									<img src="images/best_1.png" class="avatar" alt="">
+								</div>
+							</a>
+							<div class="brief-right ">
+								<div class="username">luonganh99</div>
+								<a href="#"><i class="fa fa-pencil" aria-hidden="true"></i>Sửa Hồ Sơ</a>
+							</div>
+						</div>
+						<div class="userpage-sidebar-menu mt-5">
+							<ul class="nav-container">
+								<li class="item" id="Manage-My-Account"><a href="account.html"
+										data-spm="Manage-My-Account"><span>Quản lý tài khoản</span></a>
+									<ul class="item-container">
+										<li id="My-profile" class="sub"><a href="account.html" data-spm="My-profile">Thông tin
+												cá nhân</a></li>
+										<li id="Address-book" class="sub"><a href="account.html" data-spm="Address-book">Đổi mật
+												khẩu</a></li>
+									</ul>
+								</li>
+								<li class="item" id="My-Orders"><a href="auctionlist.html" data-spm="My-Orders"><span>Quản lý
+											đấu giá</span></a>
+									<ul class="item-container">
+										<li id="Cancellations" class="sub"><a href="auctionlist.html"
+												data-spm="Cancellations">Sản phẩm đang tham gia đấu giá</a></li>
+										<li id="Cancellations" class="sub"><a href="auctionlist.html"
+												data-spm="Cancellations">Sản phẩm đã thắng</a></li>
+									</ul>
+								</li>
+								<li class="item" id="My-Reviews"><a href="review.html" data-spm="My-Reviews"><span>Đánh giá của
+											tôi</span></a></li>
+								<li class="item" id="My-Wishlists"><a class="active" href="wishlist.html"
+										data-spm="My-Wishlists"><span>Sản phẩm yêu thích</span></a>
+								<li class="item" id="Sell-On-Lazada"><a href="auction.html" data-spm="Sell-On-Lazada"><span>Đăng
+											dấu giá</span></a>
+							</ul>
+						</div>
+					</div>
+		
+					{{!-- Right user layout --}}
+
+					{{{body}}}
+					
+				</div>
+			</div>
+		</div>
+		
+
+		<!-- Brands -->
+
+		<div class="brands">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="brands_slider_container">
+						
+						<!-- Brands Slider -->
+
+						<div class="owl-carousel owl-theme brands_slider">
+							
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_1.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_2.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_3.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_4.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_5.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_6.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_7.jpg" alt=""></div></div>
+							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_8.jpg" alt=""></div></div>
+
+						</div>
+						
+						<!-- Brands Slider Navigation -->
+						<div class="brands_nav brands_prev"><i class="fas fa-chevron-left"></i></div>
+						<div class="brands_nav brands_next"><i class="fas fa-chevron-right"></i></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
 		<!-- Newsletter -->
 	
 		<div class="newsletter">
@@ -528,28 +602,44 @@
 	
 	</div>
 
- 
-    <script src="/static/js/jquery-3.3.1.min.js"></script>
-    <script src="/static/styles/bootstrap4/popper.js"></script>
-    <script src="/static/styles/bootstrap4/bootstrap.min.js"></script>
-    <script src="/static/plugins/greensock/TweenMax.min.js"></script>
-    <script src="/static/plugins/greensock/TimelineMax.min.js"></script>
-    <script src="/static/plugins/scrollmagic/ScrollMagic.min.js"></script>
-    <script src="/static/plugins/greensock/animation.gsap.min.js"></script>
-    <script src="/static/plugins/greensock/ScrollToPlugin.min.js"></script>
-    <script src="/static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-    <script src="/static/plugins/slick-1.8.0/slick.js"></script>
-    <script src="/static/plugins/easing/easing.js"></script>
-    <script src="/static/js/custom.js"></script>
-	<script src="/static/plugins/Isotope/isotope.pkgd.min.js"></script>
-	<script src="/static/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-	<script src="/static/plugins/parallax-js-master/parallax.min.js"></script>
-	<script src="/static/js/shop_custom.js"></script>
-	<script src="/static/js/product_custom.js"></script>
-	<script src="/static/js/blog_custom.js"></script>
+
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/greensock/TweenMax.min.js"></script>
+	<script src="plugins/greensock/TimelineMax.min.js"></script>
+	<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+	<script src="plugins/greensock/animation.gsap.min.js"></script>
+	<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/slick-1.8.0/slick.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="js/custom.js"></script>
+	<script src="plugins/Isotope/isotope.pkgd.min.js"></script>
+	<script src="plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="js/shop_custom.js"></script>
+    {{!-- <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="styles/bootstrap4/popper.js"></script>
+    <script src="styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="plugins/greensock/TweenMax.min.js"></script>
+    <script src="plugins/greensock/TimelineMax.min.js"></script>
+    <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="plugins/greensock/animation.gsap.min.js"></script>
+    <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/slick-1.8.0/slick.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="js/custom.js"></script>
+	<script src="plugins/Isotope/isotope.pkgd.min.js"></script>
+	<script src="plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script> --}}
+	{{!-- <script src="js/shop_custom.js"></script> --}}
+	{{!-- <script src="/static/js/product_custom.js"></script> --}}
+	{{!-- <script src="/static/js/blog_custom.js"></script>
 	<script src="/static/js/product_custom.js"></script>
 	<script src="/static/js/blog_single_custom.js"></script>
-	<script src="/static/js/contact_custom.js"></script>
+	<script src="/static/js/contact_custom.js"></script> --}}
 	<script src="https://kit.fontawesome.com/1dfb242a3f.js" crossorigin="anonymous"></script>
 </body>
 
