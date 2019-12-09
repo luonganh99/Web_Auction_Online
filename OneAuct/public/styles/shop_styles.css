@@ -2381,3 +2381,9 @@ select option
 {
 	margin-right: 0px;
 }
+
+
+.title {
+	font-size: 40px;
+	font-weight: bolder;
+}
