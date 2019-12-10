@@ -16,7 +16,7 @@ app.engine('hbs', exhbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',
     helpers: {
-        format: val => numeral(val).format('0,0')
+        format: val => numeral(val).format('0,0') + ' đ' 
     }
 }));
 
