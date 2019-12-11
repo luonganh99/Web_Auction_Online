@@ -394,3 +394,7 @@ thead {
 .order-button-payment input:hover {
 	background: #fed700 none repeat scroll 0 0;
 }
+
+.wishlist-table {
+	width: 75%;
+}

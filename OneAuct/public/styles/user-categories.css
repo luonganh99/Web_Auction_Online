@@ -1,0 +1,24 @@
+/* Left-side */
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.userpage-sidebar-menu .item  {
+    margin-bottom: 15px;
+}
+
+.userpage-sidebar-menu .item a {
+    color: black;
+}
+
+.userpage-sidebar-menu .item span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.userpage-sidebar-menu .item .item-container {
+    margin-left: 15px;
+}

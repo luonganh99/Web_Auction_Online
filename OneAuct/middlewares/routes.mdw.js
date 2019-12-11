@@ -1,21 +1,16 @@
 module.exports = (app) => {
     app.use('/admin/categories', require('../routes/admin/category.route'));
 
-    app.use('/shop', require('../routes/user/category.route'));
+    app.use('/shop', require('../routes/user/shop.route'));
+
+    app.use('/user', require('../routes/user/user-categories.route'));
+
 
     app.get('/', (req, res) => {
         res.render('home', {
             title: 'OneAunct',
             style: 'main_styles.css',
             style_responsive: 'responsive.css'
-        });
-    });
-
-    app.get('/product', (req, res) => {
-        res.render('product-detail', {
-            title: 'Product Detail',
-            style: 'product_styles.css',
-            style_responsive: 'product_responsive.css'
         });
     });
 
@@ -40,14 +35,7 @@ module.exports = (app) => {
         res.render('blog-detail');
     });
 
-    app.get('/wishlist', (req, res) => {
-        res.render('wish-list', {
-            title: 'Wish List',
-            style_specific: 'wishlist.css',
-            style: 'product_styles.css',
-            style_responsive: 'product_responsive.css'
-        });
-    });
+
 
     app.get('/contact', (req, res) => {
         res.render('contact', {
@@ -58,15 +46,6 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/account', (req, res) => {
-        res.render('user-categories/user-account', {
-            title: 'User Account',
-            layout: 'user-categories',
-            style_specific: 'account.css',
-            style: 'product_styles.css',
-            style_responsive: 'product_responsive.css'
-        });
-    });
 
     app.use((req,res,next) => {
         res.send('You\'re lost' );

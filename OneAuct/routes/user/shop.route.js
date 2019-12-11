@@ -41,6 +41,15 @@ router.get('/:id/products', async (req,res) => {
     });
 });
 
+router.get('/:catID/products/:proID', async (req,res) => {
+    const product = await productModel.single(req.params.proID);
 
+    res.render('user/productsDetail', {
+        title: 'Product Detail',
+        style: 'product_styles.css',
+        style_responsive: 'product_responsive.css',
+        product: product[0]
+    });
+});
 
 module.exports = router;
