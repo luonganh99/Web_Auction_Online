@@ -1,23 +1,54 @@
 const express = require('express');
 const productModel = require('../../models/product.model');
 const categoryModel = require('../../models/category.model');
+const config = require('../../config/default.json');
 const router = express.Router();
 
 router.get('/', async(req,res) => {
-    const products = await productModel.all();
-    const numProducts = await productModel.count();
+    const limit = config.paginate.limit;
+
+    //Tao offset tu page request
+    const page = req.query.page || 1;
+    if(page < 1) page = 1;
+    const offset = (page - 1) * limit;
+
+    //Lay du lieu database
+    const [totalProducts, products] = await Promise.all([
+        productModel.count(),
+        productModel.page(offset)
+    ]);
+
+    //So trang nPages
+    let nPages = Math.floor(totalProducts/limit);
+    if(totalProducts % limit > 0) nPages++; 
+    
+    //Mang page de hien thi view
+    const page_numbers = [];
+    for(i = 1; i <= nPages; i++){
+        page_numbers.push({
+            value: i,
+            isCurrent: i === +page 
+        })
+    }
+
+    let prev_value = +page - 1;
+    let next_value = +page + 1;
+    if(prev_value < 1) prev_value = 1;
+    if(next_value > nPages) next_value = nPages;
 
     res.render('user/shop/all', {
         title: 'Shop',
         style: 'shop_styles.css',
         style_responsive: 'shop_responsive.css',
-        products: products,
         nameCategory: 'Tất Cả Danh Mục',
-        numProducts: numProducts[0].totalProducts,
+        products,
+        totalProducts,
+        page_numbers,
+        prev_value,
+        next_value,
         empty: products.length === 0
     });
 });
-
 
 router.get('/:id/products', async (req,res) => {
     var numProducts;
@@ -29,7 +60,6 @@ router.get('/:id/products', async (req,res) => {
     const products = await productModel.allbyCat(req.params.id);
     const categories = await categoryModel.single(req.params.id);
 
-   
     res.render('user/shop/all', {
         title: 'Shop',
         style: 'shop_styles.css',

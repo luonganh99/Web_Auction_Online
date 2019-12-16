@@ -65,7 +65,7 @@
     .login-form input[type="checkbox"] {
       width: auto; }
   .login-form .check-box {
-    float: right;
+    float: left;
     margin-right: 70px; }
     .login-form .check-box:last-child {
       margin-right: 0; }

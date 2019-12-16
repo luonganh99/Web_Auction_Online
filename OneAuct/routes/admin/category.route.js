@@ -6,7 +6,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const rows = await categoryModel.all();
     res.render('admin-categories/index', {
-        title: 'Admin',
         layout: 'admin-categories',
         categories: rows,
         empty: rows.length === 0
@@ -15,15 +14,13 @@ router.get('/', async (req, res) => {
 
 router.get('/add', (req,res) => {
     res.render('admin-categories/add', {
-            title: 'Admin',
-            layout: 'admin-categories'
+        layout: 'admin-categories'
     });
 });  
 
 router.post('/add', async (req,res) => {
     const result = await categoryModel.add(req.body);
     res.render('admin-categories/add', {
-        title: 'Admin',
         layout: 'admin-categories'
     });
 })
@@ -38,7 +35,6 @@ router.get('/edit/:id', async (req, res) => {
         throw new Error('Invalid category ID');
     }
     res.render('admin-categories/edit', {
-        title: 'Admin',
         layout: 'admin-categories',
         category: rows[0]
     });

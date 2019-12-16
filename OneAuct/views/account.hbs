@@ -1,0 +1,108 @@
+{{#section 'title'}}
+	<title>Register</title>	
+{{/section}}
+
+{{#section 'css'}}
+	<link rel="stylesheet" type="text/css" href="/styles/product_styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles/product_responsive.css">
+	<link rel="stylesheet" type="text/css" href="/styles/register.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+	<script src="/js/product_custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('#dob').datetimepicker({
+            // format: 'd/m/Y H:i'
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true,
+        });
+    </script>
+{{/section}}	
+    
+<!-- Register -->
+<div class="page-section mb-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-5">
+                    <!-- Login Form s-->
+                    <form action="/login" method="POST" name="Login">
+                        <div class="login-form">
+                            <h4 class="login-title">Đăng Nhập</h4>
+                            <div class="row">
+                                <div class="col-md-12 col-12 mb-5">
+                                    <label>Tên Dăng Nhập</label>
+                                    <input class="mb-0" type="text" placeholder="luonganh" name="Username">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>Mật khẩu</label>
+                                    <input class="mb-0" type="password" placeholder="Password" name="Raw_Password">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="check-box d-inline-block ml-0 ml-md-2 mt-1">
+                                        <input type="checkbox" id="remember_me">
+                                        <label for="remember_me">Nhớ tài khoản</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-1 mb-5 text-left text-md-right">
+                                    <a href="#">Quên mật khẩu?</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="register-button mt-0" type="submit">Đăng nhập</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
+                    <form action="/register" method="POST" name="Register">
+                        <div class="login-form">
+                            <h4 class="login-title">Tạo tài khoản</h4>
+                            <div class="row">
+                                <div class="col-md-12 mb-5">
+                                    <label>Tên đăng nhập</label>
+                                    <input class="mb-0" type="text" name="Username"placeholder="luonganh">
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <label>Mật khẩu</label>
+                                    <input class="mb-0" type="password" name="Raw_Password" placeholder="Password">
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <label>Xác nhận mật khẩu</label>
+                                    <input class="mb-0" type="password" placeholder="Confirm Password">
+                                </div>
+                            </div>
+                            <h4 class="login-title">Thông Tin Tài Khoản</h4>
+                            <div class="row">
+                                <div class="col-md-6 col-12 mb-5">
+                                    <label>Họ</label>
+                                    <input class="mb-0" type="text" name="Lastname" placeholder="Nguyễn Hữu">
+                                </div>
+                                <div class="col-md-6 col-12 mb-5">
+                                    <label>Tên</label>
+                                    <input class="mb-0" type="text" name="Firstname" placeholder="Lương Anh">
+                                </div>
+                                <div class="col-md-12 mb-5">
+                                    <label>Email</label>
+                                    <input class="mb-0" type="email" name="Email" placeholder="nguyenhuuluonganh@gmail.com">
+                                </div>
+                                <div class="col-md-12 mb-5">
+                                    <label>Địa Chỉ</label>
+                                    <input class="mb-0" type="text" name="Address" placeholder="Bà Rịa - Vũng Tàu">
+                                </div>
+                                <div class="col-md-12 mb-5">
+                                    <label>Ngày Sinh</label>
+                                    <input class="mb-0" type="text" id="dob" name="Date_of_Birth" placeholder="05/05/1999">
+                                </div>
+                                <div class="col-12">
+                                    <button class="register-button mt-0" type="submit">Đăng ký</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>

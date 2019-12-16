@@ -2,6 +2,7 @@ const   express = require('express'),
         exhbs = require('express-handlebars'),
         morgan = require('morgan'),
         numeral = require('numeral'),
+        hbs_sections = require('express-handlebars-sections'),
         app = express();
 
 require('express-async-errors');
@@ -16,7 +17,8 @@ app.engine('hbs', exhbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',
     helpers: {
-        format: val => numeral(val).format('0,0') + ' đ' 
+        format: val => numeral(val).format('0,0') + ' đ',
+        section: hbs_sections()
     }
 }));
 

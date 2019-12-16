@@ -5,22 +5,10 @@ module.exports = (app) => {
 
     app.use('/user', require('../routes/user/user-categories.route'));
 
+    app.use('/account', require('../routes/user/account.route.js'));
 
     app.get('/', (req, res) => {
-        res.render('home', {
-            title: 'OneAunct',
-            style: 'main_styles.css',
-            style_responsive: 'responsive.css'
-        });
-    });
-
-    app.get('/register', (req, res) => {
-        res.render('register', {
-            title: 'Register',
-            style_specific: 'register.css',
-            style: 'product_styles.css',
-            style_responsive: 'product_responsive.css'
-        });
+        res.render('home');
     });
 
     app.get('/blog', (req, res) => {
@@ -36,14 +24,8 @@ module.exports = (app) => {
     });
 
 
-
     app.get('/contact', (req, res) => {
-        res.render('contact', {
-            title: 'Contact',
-            style_specific: '',
-            style: 'contact_styles.css',
-            style_responsive: 'contact_reponsive.css'
-        });
+        res.render('contact');
     });
 
 
