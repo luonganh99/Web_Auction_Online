@@ -17,21 +17,21 @@
 
 	<div class="single_product">
 		<div class="container">
-			<div class="product_category">Laptop</div>
-			<div class="product_name">MacBook Air 13</div>
+			<div class="product_category">{{ category.CatName }}</div>
+			<div class="product_name">{{ product.ProName }}</div>
 			<div class="row">
 				<!-- Images -->
 				<div class="col-lg-2 order-lg-1 order-2">
 					<ul class="image_list">
-						<li data-image="/images/single_4.jpg"><img src="/images/single_4.jpg" alt=""></li>
-						<li data-image="/images/single_2.jpg"><img src="/images/single_2.jpg" alt=""></li>
-						<li data-image="/images/single_3.jpg"><img src="/images/single_3.jpg" alt=""></li>
+						<li data-image="/images/product/{{product.ProID}}/single_1.jpg"><img src="/images/product/{{product.ProID}}/single_1.jpg" alt=""></li>
+						<li data-image="/images/product/{{product.ProID}}/single_2.jpg"><img src="/images/product/{{product.ProID}}/single_2.jpg" alt=""></li>
+						<li data-image="/images/product/{{product.ProID}}/single_3.jpg"><img src="/images/product/{{product.ProID}}/single_3.jpg" alt=""></li>
 					</ul>
 				</div>
 
 				<!-- Selected Image -->
 				<div class="col-lg-5 order-lg-2 order-1">
-					<div class="image_selected"><img src="/images/single_4.jpg" alt=""></div>
+					<div class="image_selected"><img src="/images/product/{{product.ProID}}/single_1.jpg" alt=""></div>
 				</div>
 
 				<!-- Description -->
@@ -39,49 +39,48 @@
 					<div class="product_description">
 						<div class="current_bid mb-2 mt-2">
 							<div class="title">Giá hiện tại </div>
-							<div class="product_price">{{format product.StartingPrice}}</div>
+							<div class="product_price">{{ format product.StartPrice }}</div>
 						</div>
 
 						<div class="time_remain">
-							<div class="time_text">Đấu giá kết thúc trong</div>
-							<div class="time">10h 15m 23s</div>
+							<div class="time_text">Đấu giá bắt đầu</div>
+							<div class="time">{{ product.StartDate }}</div>
+						</div>
+
+						<div class="time_remain">
+							<div class="time_text">Đấu giá kết thúc</div>
+							<div class="time">{{ product.ExpiryDate }}</div>
 						</div>
 						
 						<div class="product_text">
-							<div class="d-flex flex-column">
-								<div class="title">Mô tả sản phẩm:</div>
-								<div class="content">
-									{{product.Info}}
-								</div>
-							</div>
 							<div class="d-flex flex-row justify-content-between">
 								<div class="title">Người bán:</div>
 								<div class="content">
-									luonganh99
+									{{ seller.Username }}
 								</div>
 							</div>
 							<div class="d-flex flex-row justify-content-between">
 								<div class="title">Người đấu giá cao nhất:</div>
 								<div class="content">
-									hongan197
+									{{ bidder.Username }}
 								</div>
 							</div>
 							<div class="d-flex flex-row justify-content-between">
 								<div class="title">Thêm vào danh sách yêu thích</div>
-								<div class="product_fav content"> <i class="fas fa-heart"></i></div>
+								<div class="product_fav content"><i class="fas fa-heart"></i></div>
 							</div>
 
 						</div>
 
 						<div class="bid_btn">
 							<div class="title mb-2">Đấu giá trực tiếp: </div>
-							<form action="#" class="d-flex">
+							<form action="/direct" class="d-flex">
 								<input type="text">
 								<button type="button" class="cart_button ml-4">Ra Giá</button>
 							</form>
 
 							<div class="title mb-2 mt-2">Đấu giá tự động: </div>
-							<form action="#" class="d-flex">
+							<form action="/auto" class="d-flex">
 								<input type="text">
 								<button type="button" class="cart_button  ml-4">Ra Giá</button>
 							</form>
@@ -95,16 +94,13 @@
 									<th>Người mua</th>
 									<th>Giá</th>
 								</tr>
+								{{#each bidbyPro}}
 								<tr>
-									<td>1/11/2019 10:43</td>
-									<td>****Anh</td>
-									<td>6,000,000</td>
+									<td> {{ BidTime }} </td>
+									<td> {{ Username }} </td>
+									<td> {{ Price }} </td>
 								</tr>
-								<tr>
-									<td>1/11/2019 9:43</td>
-									<td>****Quang</td>
-									<td>5,900,000</td>
-								</tr>
+								{{/each}}
 							</table>
 							<a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter">Xem
 								thêm</a>
@@ -119,7 +115,7 @@
 
 	<!-- Description -->
 
-	<div class="product-area">
+	<div class="product-area mb-5">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -136,12 +132,12 @@
 				<div class="tab-content">
 					<div id="description" class="tab-pane active show" role="tabpanel">
 						<div class="product-description">
-							<div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut deleniti nemo, quia assumenda recusandae eveniet cupiditate non odio est nam tempora? Facilis rerum impedit officia animi! Optio nisi aliquam nostrum perspiciatis non! A debitis non repudiandae ut eum, animi accusantium, doloribus obcaecati cumque eaque, eveniet labore. Deserunt rem tempora pariatur, reprehenderit corporis recusandae, labore quis sit iusto atque ea nemo qui sapiente, iste quae quaerat. Placeat adipisci qui harum ex possimus quas doloremque amet animi? Iusto, deserunt at repellat iure assumenda molestias nam molestiae unde veritatis sed, amet delectus libero possimus nobis eum atque. Dolores saepe sapiente sed, officiis hic itaque asperiores ratione nobis quo blanditiis necessitatibus, iste error exercitationem quia porro, eaque rem. Perferendis, illo amet iste obcaecati accusantium corporis molestias reiciendis fugit esse dolorem voluptatem molestiae! Rem voluptates temporibus consectetur non dolor cupiditate praesentium magnam ducimus inventore beatae ut corrupti eligendi, deleniti quaerat voluptatibus blanditiis molestiae, ipsum molestias?</div>
+							<div>{{ product.ProInfo }}</div>
 						</div>
 					</div>
 					<div id="product-details" class="tab-pane" role="tabpanel">
 						<div class="product-details-manufacturer">
-							<div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut deleniti nemo, quia assumenda recusandae eveniet cupiditate non odio est nam tempora? Facilis rerum impedit officia animi! Optio nisi aliquam nostrum perspiciatis non! A debitis non repudiandae ut eum, animi accusantium, doloribus obcaecati cumque eaque, eveniet labore. Deserunt rem tempora pariatur, reprehenderit corporis recusandae, labore quis sit iusto atque ea nemo qui sapiente, iste quae quaerat. Placeat adipisci qui harum ex possimus quas doloremque amet animi? Iusto, deserunt at repellat iure assumenda molestias nam molestiae unde veritatis sed, amet delectus libero possimus nobis eum atque. Dolores saepe sapiente sed, officiis hic itaque asperiores ratione nobis quo blanditiis necessitatibus, iste error exercitationem quia porro, eaque rem. Perferendis, illo amet iste obcaecati accusantium corporis molestias reiciendis fugit esse dolorem voluptatem molestiae! Rem voluptates temporibus consectetur non dolor cupiditate praesentium magnam ducimus inventore beatae ut corrupti eligendi, deleniti quaerat voluptatibus blanditiis molestiae, ipsum molestias?</div>
+							<div>{{ seller.FullName }}</div>
 						</div>
 					</div>
 					<div id="reviews" class="tab-pane" role="tabpanel">

@@ -1,35 +1,31 @@
 const express = require('express');
+const wishlistModel = require('../../models/wishlist.model');
+const productModel = require('../../models/product.model');
 const router = express.Router();
 
-router.get('/account',  (req,res) => {
-    res.render('user-categories/account', {
-        title: 'Account',
+router.get('/edit',  (req,res) => {
+    res.render('user-categories/edit-account', {
         layout: 'user-categories',
-        style_specific: 'account.css',
-        style: 'product_styles.css',
-        style_responsive: 'product_responsive.css'
     });
 });
 
 
 router.get('/auction',  (req,res) => {
     res.render('user-categories/auction', {
-        title: 'Auction',
         layout: 'user-categories',
-        style_specific: 'auction.css',
-        style: 'product_styles.css',
-        style_responsive: 'product_responsive.css'
     });
 });
 
-router.get('/wishlist', (req, res) => {
+router.get('/wishlist', async (req, res) => {
+    const userID = 1;
+    const products = await  wishlistModel.allbyUser(userID);
+
+    console.log(products);
     res.render('user-categories/wishlist', {
-        title: 'Wish List',
         layout: 'user-categories',
-        style_specific: 'wishlist.css',
-        style: 'product_styles.css',
-        style_responsive: 'product_responsive.css'
+        products
     });
 });
+
 
 module.exports = router;

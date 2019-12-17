@@ -18,9 +18,17 @@ app.engine('hbs', exhbs({
     extname: '.hbs',
     helpers: {
         format: val => numeral(val).format('0,0') + ' đ',
-        section: hbs_sections()
+        section: hbs_sections(),
+        // for: (from,to,incr,block) => {
+        //     let accum = '';
+        //     for(i = from; i < to; i += incr)
+        //         accum += block.fn(i);
+        //     return accum;
+        // }
     }
 }));
+
+
 
 
 require('./middlewares/locals.mdw')(app);

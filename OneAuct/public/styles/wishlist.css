@@ -398,3 +398,8 @@ thead {
 .wishlist-table {
 	width: 75%;
 }
+
+.table-content img {
+	width: 80px;
+	height: 80px;
+}
