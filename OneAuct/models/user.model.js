@@ -2,7 +2,10 @@ const db = require('../utils/db');
 
 module.exports = {
   all: () => db.load('select * from users'),
-  single: id => db.load(`select * from users where UserID = ${id}`),
+  single: async (id) => {
+    const rows = await db.load(`select * from users where UserID = ${id}`);
+    return rows[0];
+  },
   add: entity => db.add('users', entity),
   del: id => db.del('users', { UserID: id }),
   seller: async (proID) => {

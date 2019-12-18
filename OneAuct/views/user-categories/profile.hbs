@@ -13,41 +13,37 @@
     <div class="row mt-5">
         <div class="info_form col-8">
             <div class="name item">
-                <div class="head-item">Tên</div>
+                <div class="head-item">Họ và Tên</div>
                 <div class="content-item">
-                    <input type="text">
+                    <div class="mr-3">{{ user.FullName }}</div>
                 </div>
             </div>
             <div class="emai item">
                 <div class="head-item">Email</div>
                 <div class="content-item">
-                    <div class="mr-3">ng****@gmail.com</div>
-                    <a href="#">Thay đổi</a>
+                    <div class="mr-3">{{ user.Email }}</div>
                 </div>
             </div>
             <div class="phone item">
                 <div class="head-item">Số Điện Thoại</div>
                 <div class="content-item">
-                    <div class="mr-3">********82</div>
-                    <a href="#">Thay đổi</a>
+                    <div class="mr-3">{{ user.Phone }}</div>
                 </div>
             </div>
-            <div class="gender item">
-                <div class="head-item">Giới Tính</div>
+            <div class="item">
+                <div class="head-item">Địa Chỉ</div>
                 <div class="content-item">
-                    <input type="radio" name="gender" value="male"> Nam
-                    <input type="radio" name="gender" value="female"> Nữ
-                    <input type="radio" name="gender" value="other"> Khác
+                    <div class="mr-3">{{ user.Address }}</div>
                 </div>
             </div>
             <div class="birthdate item">
                 <div class="head-item">Ngày Sinh</div>
                 <div class="content-item">
-                    <input type="date">
+                    <div class="mr-3">{{ user.DoB }}</div>
                 </div>
             </div>
             <div class="submit">
-                <button class="submit-button mt-0">Lưu</button>
+                <a href="edit"><button class="submit-button mt-0">Chỉnh Sửa</button></a>
             </div>
         </div>
         <div class="avatar_change col-4">

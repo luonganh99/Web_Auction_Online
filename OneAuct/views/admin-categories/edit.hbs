@@ -10,12 +10,12 @@
     <form method="POST">
       <div class="form-group">
         <label for="txtCatId">#</label>
-        <input type="text" class="form-control" id="txtCatId" name="CatID" readonly value="{{this.category.CatID}}">
+        <input type="text" class="form-control" id="txtCatId" name="CatID" readonly value="{{category.CatID}}">
       </div>
       <div class="form-group">
         <label for="txtCatName">Category</label>
         <input type="text" class="form-control" id="txtCatName" name="CatName" placeholder="Enter category name"
-          autofocus value="{{this.category.CatName}}">
+          autofocus value="{{category.CatName}}">
       </div>
       <a class="btn btn-outline-primary" href="/admin/categories" role="button">
         <i class="fa fa-backward" aria-hidden="true"></i>
