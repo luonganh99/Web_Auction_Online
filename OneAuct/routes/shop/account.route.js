@@ -5,7 +5,7 @@ const userModel = require('../../models/user.model');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('account');
+    res.render('main/account/view');
 });
 
 router.post('/register', async (req,res) => {
@@ -25,10 +25,10 @@ router.post('/register', async (req,res) => {
     delete entity.Lastname;
 
     const result = await userModel.add(entity);
-    res.render('register');
+    res.render('main/account/view');
 });
 
-router.post('/login', async (req,res) => {
+router.post('account/login', async (req,res) => {
     
 });
 

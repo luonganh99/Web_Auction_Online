@@ -1,18 +1,19 @@
 module.exports = (app) => {
+    // Route Admin
     app.use('/admin/categories', require('../routes/admin/category.route'));
 
-    app.use('/shop', require('../routes/user/shop.route'));
+    // Route User
+    app.use('/user', require('../routes/user/categories.route'));
 
-    app.use('/user', require('../routes/user/user-categories.route'));
-
-    app.use('/account', require('../routes/user/account.route.js'));
-
+    // Route Main
     app.get('/', (req, res) => {
-        res.render('home');
+        res.render('main/home');
     });
-
+    app.use('/shop', require('../routes/shop/shop.route'));
+    app.use('/account', require('../routes/shop/account.route.js'));
+   
     app.get('/blog', (req, res) => {
-        res.render('blog', {
+        res.render('main/blog', {
             title: 'Blog',
             style: 'blog_styles.css',
             style_responsive: 'blog_responsive.css'
@@ -20,12 +21,12 @@ module.exports = (app) => {
     });
 
     app.get('/blogdetail', (req, res) => {
-        res.render('blog-detail');
+        res.render('main/blog-detail');
     });
 
 
     app.get('/contact', (req, res) => {
-        res.render('contact');
+        res.render('main/contact');
     });
 
 

@@ -6,7 +6,6 @@ const bidModel = require('../../models/user-bid-product.model');
 const config = require('../../config/default.json');
 const moment = require('moment');
 const router = express.Router();
-
 const limit = config.paginate.limit;
 
 router.get('/', async(req,res) => {
@@ -41,7 +40,7 @@ router.get('/', async(req,res) => {
     if(prev_value < 1) prev_value = 1;
     if(next_value > nPages) next_value = nPages;
 
-    res.render('user/shop/all', {
+    res.render('main/shop/all', {
         products,
         totalProducts,
         page_numbers,
@@ -52,7 +51,7 @@ router.get('/', async(req,res) => {
     });
 });
 
-router.get('/:id/products', async (req,res) => {
+router.get('/:catID/products', async (req,res) => {
 
     // let numProducts;
     // for(const c of res.locals.lcCategories){
@@ -61,7 +60,7 @@ router.get('/:id/products', async (req,res) => {
     //     }
     // }
 
-    const catID = req.params.id;
+    const catID = req.params.catID;
     //Tao offset tu page request
     const page = req.query.page || 1;
     if(page < 1) page = 1;
@@ -92,7 +91,7 @@ router.get('/:id/products', async (req,res) => {
     let next_value = +page + 1;
     if(prev_value < 1) prev_value = 1;
     if(next_value > nPages) next_value = nPages;
-    res.render('user/shop/all', {
+    res.render('main/shop/all', {
         products,
         totalProducts,
         page_numbers,
@@ -128,7 +127,7 @@ router.get('/:catID/products/:proID', async (req,res) => {
         product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
     }
     
-    res.render('user/productsDetail', {
+    res.render('main/shop/productsDetail', {
         product,
         category,
         seller,
@@ -137,7 +136,16 @@ router.get('/:catID/products/:proID', async (req,res) => {
     });
 });
 
+// Đấu giá trực tiếp
 router.post('/:catID/products/:proID/direct', async (req,res) => {
+    const catID = req.params.catID;
+    const proID = req.params.proID;
+
+
+});
+
+// Đấu giá tự động
+router.post('/:catID/products/:proID/auto', async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
 
