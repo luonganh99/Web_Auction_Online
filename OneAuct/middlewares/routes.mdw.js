@@ -15,17 +15,6 @@ module.exports = (app) => {
     app.use('/shop', require('../routes/shop/shop.route'));
     app.use('/account', require('../routes/shop/account.route.js'));
    
-
-
-
-
-
-
-
-
-
-
-
     app.get('/blog', (req, res) => {
         res.render('main/blog', {
             title: 'Blog',
@@ -38,11 +27,9 @@ module.exports = (app) => {
         res.render('main/blog-detail');
     });
 
-
     app.get('/contact', (req, res) => {
         res.render('main/contact');
     });
-
 
     app.use((req,res,next) => {
         res.send('You\'re lost' );

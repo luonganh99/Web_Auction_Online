@@ -8,5 +8,6 @@ module.exports = {
   bidbyPro: async (proID) => {
       const rows = db.load(`select * from users_bid_products  where ProID = ${proID}  order by BidID desc`);
       return rows;
-  }
+  },
+  lastID: () => db.load('select ProID from products order by ProID desc limit 1')
 };

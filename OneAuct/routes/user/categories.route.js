@@ -2,8 +2,19 @@ const express = require('express');
 const productModel = require('../../models/product.model');
 const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
-const router = express.Router();
+const categoryModel = require('../../models/category.model');
+const multer = require('multer');
 
+// const storage = multer.diskStorage({
+//     filename: function(req,file,cb){
+//         cb(null, file.originalname);
+//     },
+//     destination: function(req,file,cb){
+//         cb(null, `./public/images/product`);
+//     }
+// })
+// const upload = multer({storage});
+const router = express.Router();
 
 
 router.get('/profile', async (req,res) => {
@@ -36,16 +47,32 @@ router.post('/password', (req,res) => {
 
 });
 
-router.get('/post', async (req,res) => {
+router.get('/post', (req,res) => {
     res.render('user/post', {
-        layout: 'user',
+        layout: 'user'
     });
 });
 
-router.post('/post', async (req,res) => {
-    res.render('user/post', {
-        layout: 'user',
-    });
+const storage = multer.diskStorage({
+    filename: function(req,file,cb){
+        cb(null, file.originalname);
+    },
+    destination: function(req,file,cb){
+        cb(null, `./public/images/product`);
+    },
+});
+const upload = multer({storage});
+
+router.post('/post', (req,res) => {
+
+    upload.single('Images')(req, res, err => {
+        if (err) {
+
+        }
+        console.log(req.body);
+    })
+   console.log(req.body); 
+   res.send('done');
 });
 
 router.get('/joininglist', async(req,res) => {
