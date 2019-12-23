@@ -3,11 +3,11 @@ const productModel = require('../../models/product.model');
 const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
 const router = express.Router();
-const userID = 1;
+
 
 
 router.get('/profile', async (req,res) => {
-    const user = await userModel.single(userID);
+    const user = await userModel.single(req.session.authUser.UserID);
     res.render('user/profile', {
         layout: 'user',
         user
@@ -15,7 +15,7 @@ router.get('/profile', async (req,res) => {
 });
 
 router.get('/edit', async (req,res) => {
-    const user = await userModel.single(userID);
+    const user = await userModel.single(req.session.authUser.UserID);
     res.render('user/edit', {
         layout: 'user',
         user
@@ -25,7 +25,6 @@ router.get('/edit', async (req,res) => {
 router.post('/edit', async (req,res) => {
     //xử lý edit
 });
-
 
 router.get('/password', (req,res) => {
     res.render('user/password',{
@@ -50,7 +49,7 @@ router.post('/post', async (req,res) => {
 });
 
 router.get('/joininglist', async(req,res) => {
-    const products = await productModel.joininglist(userID);
+    const products = await productModel.joininglist(req.session.authUser.UserID);
     res.render('user/joiningList', {
         layout: 'user',
         products
@@ -58,7 +57,7 @@ router.get('/joininglist', async(req,res) => {
 });
 
 router.get('/joinedlist', async(req,res) => {
-    const products = await productModel.joinedlist(userID);
+    const products = await productModel.joinedlist(req.session.authUser.UserID);
     res.render('user/joinedList', {
         layout: 'user',
         products
@@ -66,7 +65,7 @@ router.get('/joinedlist', async(req,res) => {
 });
 
 router.get('/wonlist', async(req,res) => {
-    const products = await productModel.wonlist(userID);
+    const products = await productModel.wonlist(req.session.authUser.UserID);
     res.render('user/wonList', {
         layout: 'user',
         products
@@ -74,12 +73,11 @@ router.get('/wonlist', async(req,res) => {
 });
 
 router.get('/wishlist', async (req, res) => {
-    const products = await productModel.wishlist(userID);
+    const products = await productModel.wishlist(req.session.authUser.UserID);
     res.render('user/wishList', {
         layout: 'user',
         products
     });
 });
-
 
 module.exports = router;

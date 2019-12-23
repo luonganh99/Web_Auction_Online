@@ -1,0 +1,61 @@
+{{#section 'title'}}
+	<title>Register</title>	
+{{/section}}
+
+{{#section 'css'}}
+	<link rel="stylesheet" type="text/css" href="/styles/product_styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles/product_responsive.css">
+	<link rel="stylesheet" type="text/css" href="/styles/register.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+	<script src="/js/product_custom.js"></script>
+{{/section}}	
+    
+<!-- View Account -->
+<div class="page-section mb-5 mt-5">
+        <div class="container">
+            <div class="row">
+                {{!-- Login --}}
+                <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-5">
+                    <!-- Login Form s-->
+                    {{#if err_message}}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{err_message}}
+                    </div>
+                    {{/if}}
+                    <form method="POST" name="Login">
+                        <div class="login-form">
+                            <h4 class="login-title">Đăng Nhập</h4>
+                            <div class="row">
+                                <div class="col-md-12 col-12 mb-5">
+                                    <label>Tên Đăng Nhập</label>
+                                    <input class="mb-0" type="text" placeholder="luonganh" name="Username">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>Mật khẩu</label>
+                                    <input class="mb-0" type="password" placeholder="Password" name="Password">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="check-box d-inline-block ml-0 ml-md-2 mt-1">
+                                        <input type="checkbox" id="remember_me">
+                                        <label for="remember_me">Nhớ tài khoản</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-1 mb-5 text-left text-md-right">
+                                    <a href="#">Quên mật khẩu?</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="register-button mt-0" type="submit">Đăng nhập</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>

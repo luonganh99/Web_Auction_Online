@@ -3,11 +3,21 @@ const   express = require('express'),
         morgan = require('morgan'),
         numeral = require('numeral'),
         hbs_sections = require('express-handlebars-sections'),
+        session = require('express-session');
         app = express();
 
 require('express-async-errors');
 
 //app.use(morgan('dev')); 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    // cookie: {
+    //     secure: true
+    // }
+  }))
+    
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static('public'));
@@ -22,16 +32,14 @@ app.engine('hbs', exhbs({
     }
 }));
 
-
 require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
-
 
 //Error handler
 app.use((err,req,res,next) => {
     console.log(err.stack);
     res.status(500).send('View error on console');
-})
+});
 
 app.listen(3000, () => {
     console.log("Server is running ...");
