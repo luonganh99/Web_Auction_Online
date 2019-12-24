@@ -19,5 +19,9 @@ module.exports = {
           from categories c left join products p on c.CatID = p.CatID
           group by c.CatID, c.CatName`;
         return db.load(sql);
+    },
+    singleByName: async (catName) => {
+        const rows = await db.load(`select CatID from categories where CatName = ${catName}`);
+        return rows[0];
     }
 }

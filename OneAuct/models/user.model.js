@@ -6,6 +6,12 @@ module.exports = {
     const rows = await db.load(`select * from users where UserID = ${id}`);
     return rows[0];
   },
+  singleByUsername: async (username) => {
+    const rows = await db.load(`select * from users where Username = '${username}'`);
+    if(rows.length === 0)
+      return null;
+    return rows[0];
+  },
   add: entity => db.add('users', entity),
   del: id => db.del('users', { UserID: id }),
   seller: async (proID) => {

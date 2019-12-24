@@ -35,11 +35,37 @@
 										</li>
 									</ul>
 								</div>
+								{{#if isAuthenticated}}
+								<div class="top_bar_userAuth ml-3">
+								<form id="frmLogout" method="post" action="/account/logout"></form>
+									<div class="dropdown">
+										<a class="user dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+											aria-haspopup="true" aria-expanded="false">
+											Hi, <b>{{authUser.Username}}!</b>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+											<a class="dropdown-item" href="/user/profile">
+												<i class="fa fa-user mr-3" aria-hidden="true"></i>
+												Xem Thông Tin
+											</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item " href="javascript: $('#frmLogout').submit();">
+												<i class="fa fa-sign-out mr-3" aria-hidden="true"></i>
+												Đăng Xuất
+											</a>
+										</div>
+									</div>	
+								</div>
+
+								{{else}}
 								<div class="top_bar_user">
 									<div class="user_icon"><img src="/images/user.svg" alt=""></div>
-									<div><a href="/account">Đăng Ký</a></div>
-									<div><a href="/account">Đăng Nhập</a></div>
+									<div><a href="/account/register">Đăng Ký</a></div>
+									<div><a href="/account/login">Đăng Nhập</a></div>
 								</div>
+								{{/if}}
+								
+								
 							</div>
 						</div>
 					</div>
@@ -106,7 +132,7 @@
 											<div class="cart_count"><span>10</span></div>
 										</div>
 										<div class="cart_content">
-											<div class="cart_text"><a href="/account/post">Đấu Giá</a></div>
+											<div class="cart_text"><a href="/user/post">Đấu Giá</a></div>
 											<div class="cart_price">$85</div>
 										</div>
 									</div>

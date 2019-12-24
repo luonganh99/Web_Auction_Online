@@ -1,52 +1,99 @@
 {{#section 'title'}}
-    <title>Aucction</title>
+    <title>Auction</title>
 {{/section}}
 
 {{#section 'css'}}
     <link rel="stylesheet" type="text/css" href="/styles/auction.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/css/fileinput.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+{{/section}}
+
+{{#section 'js'}}
+{{!-- Text input --}}
+<script src="https://cdn.tiny.cloud/1/c1jvw3qlu8agu5fn9nd4vy1r0exudpyv1c1bvrazfekhzubz/tinymce/5/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#txtFullInfo',
+    height: 400,
+    plugins: 'paste image link autolink lists table media',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
+      'forecolor backcolor',
+      'table link image media',
+    ],
+  });
+</script>
+{{!-- File input --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/themes/fa/theme.min.js"></script>
+<script>
+  $('#imgProduct').fileinput({
+    theme: 'fa',
+    dropZoneEnabled: false,
+    allowedFileExtensions: ['png', 'jpg', 'gif'],
+    showUpload: false,
+  });
+</script>
 {{/section}}
 
 <!-- Auction -->  
 <div class="userpage-content col-9">
     <div class="title breadcrumb justify-content-center">Đăng đấu giá</div>
     <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 mb-5">
-        <form action="#">
+        <form method="POST" enctype="multipart/form-data">
             <div class="form">
                 <div class="row">
-                    <div class="col-md-12 col-12 mb-5">
+                    <div class="col-md-12 col-12 mb-3">
                         <label>Tên sản phẩm</label>
-                        <input class="mb-0" type="text" placeholder="MacBook Air 13">
+                        <input class="mb-0" type="text" name="ProName" placeholder="MacBook Air 13">
                     </div>
                     <div class="col-md-12 col-12 mb-3">
-                        <label>Mô tả sản phẩm</label>
-                        <input class="mb-0" type="text" placeholder="Thông tin mô tả sản phẩm">
+                        <label>Danh mục</label>
+                        <select id="inputState" class="form-control" name="CatName">
+                            <option selected>Tất cả danh mục</option>
+                            {{#each lcCategories}}
+                                <option value="{{CatName}}" >{{CatName}}</option>
+                            {{/each}}
+                        </select>
                     </div>
-                    <div class="col-md-12 col-12 mb-5 ">
-                        <label>Chọn ảnh</label>
-                        <input class="mb-0" type="file" accept="image/*">
+                    <div class="col-md-12 col-12 mb-3">
+                        <label>Thông tin giới thiệu</label>
+                        <input class="mb-0" name="TinyInfo" type="text" placeholder="">
+                    </div>
+
+                   
+                    <div class="col-md-12 col-12 mb-3">
+                        <label>Mô tả chi tiết</label>
+                        <textarea id="txtFullInfo" class="mb-0" name="FullInfo" placeholder=""></textarea>
+                    </div>
+                    <div class="col-md-12 col-12 mb-3">
+                        <label>Chọn ảnh </label>
+                        <input class="mb-0" id="imgProduct" name="Images" type="file" multiple accept="image/*">
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Giá khởi điểm</label>
-                        <input class="mb-0" type="number" placeholder="vnđ">
+                        <input class="mb-0" type="number" name="StartPrice" placeholder="vnđ">
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Bước giá</label>
-                        <input class="mb-0" type="number" placeholder="vnđ">
+                        <input class="mb-0" type="number" name="PriceStep" placeholder="vnđ">
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Giá mua ngay</label>
-                        <input class="mb-0" type="number" placeholder="vnđ">
+                        <input class="mb-0" type="number" name="PurchasePrice" placeholder="vnđ">
                     </div>
 
                     <div class="check-box d-inline-block col-md-12 col-12 mb-3">
-                        <input type="checkbox" id="remember_me">
+                        <input type="checkbox" id="remember_me" name="Raw_AutoRenew">
                         <label for="remember_me">Tự động gia hạn</label>
                     </div>
 
                     <div class="col-md-12 d-flex justify-content-center">
-                        <button class="register-button mt-0">Đăng đấu giá</button>
+                        <button class="register-button mt-0" type="submit">Đăng đấu giá</button>
                     </div>
                 </div>
+
             </div>
         </form>
     </div>

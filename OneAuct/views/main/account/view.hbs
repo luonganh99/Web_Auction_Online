@@ -22,13 +22,22 @@
     </script>
 {{/section}}	
     
-<!-- Register -->
+<!-- View Account -->
 <div class="page-section mb-5 mt-5">
         <div class="container">
             <div class="row">
+                {{!-- Login --}}
                 <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-5">
                     <!-- Login Form s-->
-                    <form action="/login" method="POST" name="Login">
+                    {{#if err_message}}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{err_message}}
+                    </div>
+                    {{/if}}
+                    <form action="account/login" method="POST" name="Login">
                         <div class="login-form">
                             <h4 class="login-title">Đăng Nhập</h4>
                             <div class="row">
@@ -38,7 +47,7 @@
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label>Mật khẩu</label>
-                                    <input class="mb-0" type="password" placeholder="Password" name="Raw_Password">
+                                    <input class="mb-0" type="password" placeholder="Password" name="Password">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="check-box d-inline-block ml-0 ml-md-2 mt-1">
@@ -56,8 +65,9 @@
                         </div>
                     </form>
                 </div>
+                {{!-- Register --}}
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                    <form action="/register" method="POST" name="Register">
+                    <form action="register" method="POST" name="Register">
                         <div class="login-form">
                             <h4 class="login-title">Tạo tài khoản</h4>
                             <div class="row">

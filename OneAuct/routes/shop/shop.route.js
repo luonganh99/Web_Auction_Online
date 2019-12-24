@@ -6,6 +6,7 @@ const bidModel = require('../../models/user-bid-product.model');
 const config = require('../../config/default.json');
 const moment = require('moment');
 const router = express.Router();
+const restrictUser = require('../../middlewares/authUser.mdw');
 const limit = config.paginate.limit;
 
 router.get('/', async(req,res) => {
@@ -137,7 +138,7 @@ router.get('/:catID/products/:proID', async (req,res) => {
 });
 
 // Đấu giá trực tiếp
-router.post('/:catID/products/:proID/direct', async (req,res) => {
+router.post('/:catID/products/:proID/direct',restrictUser, async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
 
@@ -145,7 +146,7 @@ router.post('/:catID/products/:proID/direct', async (req,res) => {
 });
 
 // Đấu giá tự động
-router.post('/:catID/products/:proID/auto', async (req,res) => {
+router.post('/:catID/products/:proID/auto',restrictUser, async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
 

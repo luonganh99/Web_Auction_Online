@@ -145,3 +145,18 @@
     font-family: 'Muli', serif;
 }
 
+.form #inputState {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #999999;
+    border-radius: 0;
+    line-height: 23px;
+    font-size: 14px;
+    color: #7a7a7a;
+}
+
+
+select.form-control:not([size]):not([multiple]) {
+    height: 45px;
+    margin-left: 0px;
+}

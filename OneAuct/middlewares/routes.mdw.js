@@ -1,9 +1,12 @@
+const restrictUser = require('../middlewares/authUser.mdw');
+const restrictAdmin = require('../middlewares/authAdmin.mdw');
+
 module.exports = (app) => {
     // Route Admin
-    app.use('/admin/categories', require('../routes/admin/category.route'));
+    app.use('/admin/categories', restrictAdmin, require('../routes/admin/category.route'));
 
     // Route User
-    app.use('/user', require('../routes/user/categories.route'));
+    app.use('/user', restrictUser, require('../routes/user/categories.route'));
 
     // Route Main
     app.get('/', (req, res) => {
@@ -24,11 +27,9 @@ module.exports = (app) => {
         res.render('main/blog-detail');
     });
 
-
     app.get('/contact', (req, res) => {
         res.render('main/contact');
     });
-
 
     app.use((req,res,next) => {
         res.send('You\'re lost' );

@@ -22,3 +22,36 @@
 .userpage-sidebar-menu .item .item-container {
     margin-left: 15px;
 }
+
+.top_bar_userAuth
+{
+	display: inline-block;
+}
+
+.top_bar_userAuth .user
+{
+	font-size: 16px;
+	font-weight: 300;
+	color: #000;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.top_bar_userAuth .dropdown-item
+{
+	font-size: 15px;
+	color: #000;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+.top_bar_userAuth a:hover
+{
+	color: #8a8a8a;
+}
