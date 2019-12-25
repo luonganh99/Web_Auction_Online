@@ -40,7 +40,15 @@
                         <ul class="sidebar_categories">
                             <li> <a href="/shop">Tất Cá Danh Mục</a> </li>
                             {{#each lcCategories }}
-                            <li><a href="/shop/{{CatID}}/products">{{CatName}}</a></li>
+                            <li>
+                                <div>{{ParentName}}</div>
+                                <ul>
+                                    {{#each SubCategories}}               
+                                    <li><a href="/shop/{{CatID}}/products">{{CatName}}</a></li>
+                                    {{/each}}
+                                </ul>
+                            
+                            </li>
                             {{/each}}
                         </ul>
                     </div>
