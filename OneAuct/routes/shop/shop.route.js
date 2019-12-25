@@ -73,7 +73,7 @@ router.get('/:catID/products', async (req,res) => {
         productModel.pagebyCat(catID,offset),
         categoryModel.single(catID)
     ]);
-
+    console.log(catID);
     //Tong so trang
     let nPages = Math.floor(totalProducts/limit);
     if(totalProducts%limit > 0) nPages++;

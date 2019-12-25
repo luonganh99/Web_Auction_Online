@@ -1,0 +1,81 @@
+{{#section 'title'}}
+<title>Admin</title>
+{{/section}}
+
+<div class="card shadow">
+    <h4 class="card-header">
+        Sub-Categories
+    </h4>
+
+    {{#if this.empty}}
+   
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col">{{category.CatName}}</th>
+                <th scope="col" class="text-right">
+                    <a class="btn btn-outline-success" href="/admin/categories/{{category.CatID}}/add" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Add Sub-Category
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td>No data</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    {{else}}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col">{{category.CatName}}</th>
+                <th scope="col" class="text-right">
+                    <a class="btn btn-outline-success" href="/admin/categories/{{category.CatID}}/add" role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Add Sub-Category
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this.subCategories}}
+            <tr>
+                <th scope="row" class="text-center">{{CatID}}</th>
+                <td>{{CatName}}</td>
+                <td class="text-right">
+                    <a name="" id="" class="btn btn-sm btn-primary" href="/admin/categories/{{ParentID}}/edit/{{CatID}}"
+                        role="button">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+
+    <div class="card-body">
+        <a class="btn btn-outline-primary" href="/admin/categories/" role="button">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+            Back
+        </a>
+    </div>
+
+
+
+
+
+    <div class="card-footer text-muted">
+        Footer
+    </div>
+</div>

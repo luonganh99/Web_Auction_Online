@@ -3,7 +3,7 @@ const restrictAdmin = require('../middlewares/authAdmin.mdw');
 
 module.exports = (app) => {
     // Route Admin
-    app.use('/admin/categories', restrictAdmin, require('../routes/admin/category.route'));
+    app.use('/admin/categories', require('../routes/admin/category.route'));
 
     // Route User
     app.use('/user', restrictUser, require('../routes/user/categories.route'));
