@@ -162,10 +162,14 @@
 	
 									<ul class="cat_menu">
 										{{#each lcCategories}}
-										<li><a href="/shop/{{CatID}}/products">
-										{{CatName}}
-										<i class="fas fa-chevron-right"></i>
-										</a></li>
+										<li class="hassubs">
+											<a href="#">{{ParentName}}<i class="fas fa-chevron-right ml-auto"></i></a>
+											<ul>
+												{{#each SubCategories}}
+												<li><a href="/shop/{{CatID}}/products">{{CatName}}<i class="fas fa-chevron-right"></i></a></li>
+												{{/each}}
+											</ul>
+										</li>
 										{{/each}}
 									</ul>
 								</div>

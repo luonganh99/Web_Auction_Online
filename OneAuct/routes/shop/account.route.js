@@ -63,7 +63,12 @@ router.post('/login', async (req,res) => {
     if(req.session.isAuthenticated === 0){
         return res.redirect('/admin/categories');
     }
-    const url = req.query.retUrl || '/';
+    let url = req.query.retUrl || '/';
+    if(url.includes('/wishlist') === true) {
+        url = url.replace('/wishlist','');
+    }
+    
+
     res.redirect(url);
 });
 

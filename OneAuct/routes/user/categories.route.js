@@ -3,6 +3,7 @@ const productModel = require('../../models/product.model');
 const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
 const categoryModel = require('../../models/category.model');
+const rateModel = require('../../models/user-rate-user.model');
 const multer = require('multer');
 
 // const storage = multer.diskStorage({
@@ -64,8 +65,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.post('/post', (req,res) => {
-
-    upload.single('Images')(req, res, err => {
+    upload.array('Images')(req, res, err => {
         if (err) {
 
         }
@@ -104,6 +104,27 @@ router.get('/wishlist', async (req, res) => {
     res.render('user/wishList', {
         layout: 'user',
         products
+    });
+});
+
+router.get('/review', async (req,res) => {
+    const [rates, goodRate, badRate] = await Promise.all([
+        productModel.reviewlist(req.session.authUser.UserID),
+        rateModel.goodReview(req.session.authUser.UserID),
+        rateModel.badReview(req.session.authUser.UserID)
+    ]);
+    //Tính phần trăm điểm đánh giá
+    const checkRate = goodRate / (goodRate + badRate);
+    let check = true;
+    if(checkRate < 0.8){
+        check = false;
+    }
+    res.render('user/review', {
+        layout: 'user',
+        rates,
+        goodRate,
+        badRate,
+        check
     });
 });
 

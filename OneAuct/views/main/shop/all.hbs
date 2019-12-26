@@ -40,7 +40,15 @@
                         <ul class="sidebar_categories">
                             <li> <a href="/shop">Tất Cá Danh Mục</a> </li>
                             {{#each lcCategories }}
-                            <li><a href="/shop/{{CatID}}/products">{{CatName}}</a></li>
+                            <li>
+                                <div>{{ParentName}}</div>
+                                <ul>
+                                    {{#each SubCategories}}               
+                                    <li><a href="/shop/{{CatID}}/products">{{CatName}}</a></li>
+                                    {{/each}}
+                                </ul>
+                            
+                            </li>
                             {{/each}}
                         </ul>
                     </div>
@@ -153,13 +161,13 @@
                                 <div class="product_name">Ngày đăng: {{StartDate}} </div>
                                 <div class="product_name">Thời gian còn lại: 2 ngày 18 giờ</div>
                                 <div class="product_name">Số lượt ra giá: 50</div>
-                                <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="product_cart_button">Xem chi tiết</button></a>
+                                <form method="POST">
+                                <div class="row justify-content-center mt-3">
+                                    <a class="product_cart_button btn btn-outline-primary" href="/shop/{{CatID}}/products/{{ProID}}" role="button">Xem chi tiết</a>
+                                    <button class="product_cart_button btn btn-outline-danger col-5 ml-2" type="submit" formaction="/shop/{{CatID}}/products/{{ProID}}/wishlist">Yêu Thích</button>                             
+                                </div>
+                               </form>
                             </div>
-                            <div class="product_fav"><i class="fas fa-heart"></i></div>
-                            <ul class="product_marks">
-                                <li class="product_mark product_discount">-25%</li>
-                                <li class="product_mark product_new">new</li>
-                            </ul>
                         </div>
                         {{/each}}
 
