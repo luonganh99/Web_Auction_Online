@@ -4,6 +4,7 @@ const categoryModel = require('../../models/category.model');
 const userModel = require('../../models/user.model');
 const bidModel = require('../../models/user-bid-product.model');
 const wishModel = require('../../models/wishlist.model');
+const rateModel = require('../../models/user-rate-user.model');
 const config = require('../../config/default.json');
 const moment = require('moment');
 const router = express.Router();
@@ -115,10 +116,12 @@ router.post('/:catID/products/:proID/wishlist', restrictUser, async (req,res) =>
     res.redirect('/user/wishlist');
 });
 
+
+
 router.get('/:catID/products/:proID', async (req,res) => {
     const proID = req.params.proID;
     const catID = req.params.catID;
-   
+  
     const [product, category, seller, bidder, bidbyPro] = await Promise.all([
         productModel.single(proID),
         categoryModel.single(catID),
@@ -139,31 +142,79 @@ router.get('/:catID/products/:proID', async (req,res) => {
     } else {
         product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
     }
-    
+   
     res.render('main/shop/productsDetail', {
         product,
         category,
         seller,
         bidder,
-        bidbyPro
+        bidbyPro,
+        isBid: false
     });
 });
 
 
-
-// Đấu giá trực tiếp
-router.post('/:catID/products/:proID/direct',restrictUser, async (req,res) => {
+router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
+    const [product, category, seller, bidder, bidbyPro] = await Promise.all([
+        productModel.single(proID),
+        categoryModel.single(catID),
+        userModel.seller(proID),
+        userModel.bidder(proID),
+        bidModel.bidbyPro(proID)
+    ])
 
+    const userID = req.session.authUser.UserID;
+    //Kiểm tra người dùng có hợp lệ
+    const [goodRate,badRate] = await Promise.all([
+        rateModel.goodReview(userID), 
+        rateModel.badReview(userID)
+    ]);
 
-});
+    const checkRate = goodRate / (goodRate + badRate);
+    // if(checkRate < 0.8){
+    //    return res.render('main/shop/productsDetail', {
+    //         product,
+    //         category,
+    //         seller,
+    //         bidder,
+    //         bidbyPro,
+    //         isBid: false,
+    //         err_message: 'Bạn không đủ quyền để đấu giá'
+    //    });
+    // }
+    
+  
+    res.render('main/shop/productsDetail', {
+        product,
+        category,
+        seller,
+        bidder,
+        bidbyPro,
+        isBid: true,
+    });
+
+})
 
 // Đấu giá tự động
-router.post('/:catID/products/:proID/auto',restrictUser, async (req,res) => {
+router.post('/:catID/products/:proID/check/auto',restrictUser, async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
+});
 
+// Đấu giá trực tiếp
+router.post('/:catID/products/:proID/check/direct',restrictUser, async (req,res) => {
+    const entity = {
+        ProID: req.params.proID,
+        UserID: req.session.authUser.UserID,
+        Username: req.session.authUser.Username,
+        BidTime: moment().format('YYYY-MM-DD , HH:mm:ss'),
+        Price :req.body.Price,
+    }
+    console.log(entity);
+    const results = await bidModel.add(entity);
+    res.redirect('/user/joininglist');
 
 });
 

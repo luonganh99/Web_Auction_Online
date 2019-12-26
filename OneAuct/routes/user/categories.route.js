@@ -64,8 +64,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.post('/post', (req,res) => {
-
-    upload.single('Images')(req, res, err => {
+    upload.array('Images')(req, res, err => {
         if (err) {
 
         }
