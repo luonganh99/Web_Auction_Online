@@ -48,7 +48,7 @@
             {{#each this.subCategories}}
             <tr>
                 <th scope="row" class="text-center">{{CatID}}</th>
-                <td>{{CatName}}</td>
+                <td><a class="text-dark btn" href="/admin/categories/{{ParentID}}/product/{{CatID}}">{{CatName}}</a></td>
                 <td class="text-right">
                     <a name="" id="" class="btn btn-sm btn-primary" href="/admin/categories/{{ParentID}}/edit/{{CatID}}"
                         role="button">

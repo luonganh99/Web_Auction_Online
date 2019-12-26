@@ -1,6 +1,8 @@
 const express = require('express');
 const categoryModel = require('../../models/category.model');
-
+const productModel = require('../../models/product.model')
+const config = require('../../config/default.json');
+const limit = config.paginate.limit;
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -100,5 +102,52 @@ router.post('/:parentID/patch', async (req,res) => {
     const results = await categoryModel.patch(req.body);
     res.redirect(`/admin/categories/${req.params.parentID}`);
 })
+
+router.get('/:parentID/product/:catID', async (req,res) => {
+    const catID = req.params.catID;
+    const parentID = req.params.parentID;
+    //Tao offset tu page request
+    const page = req.query.page || 1;
+    if(page < 1) page = 1;
+    const offset = (page - 1) * limit;
+
+    //Lay du lieu tu database
+    const [totalProducts,products,categories] = await Promise.all([
+        productModel.countbyCat(catID),
+        productModel.pagebyCat(catID,offset),
+        categoryModel.single(catID)
+    ]);
+    //Tong so trang
+    let nPages = Math.floor(totalProducts/limit);
+    if(totalProducts%limit > 0) nPages++;
+
+    //Mang page de hient hien thi view
+    const page_numbers = [];
+    for(i = 1; i <= nPages; i++){
+        page_numbers.push({
+            value: i,
+            isCurrent: i === +page
+        })
+    }
+
+    //Tao nut bam
+    let prev_value = +page - 1;
+    let next_value = +page + 1;
+    if(prev_value < 1) prev_value = 1;
+    if(next_value > nPages) next_value = nPages;
+
+
+    res.render('admin/product', {
+        layout: 'admin',
+        parentID,
+        products,
+        totalProducts,
+        page_numbers,
+        prev_value,
+        next_value,
+        nameCategory: categories.CatName,
+        empty: products.length === 0
+    });
+});
 
 module.exports = router;
