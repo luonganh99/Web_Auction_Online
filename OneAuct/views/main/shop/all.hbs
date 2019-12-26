@@ -161,13 +161,13 @@
                                 <div class="product_name">Ngày đăng: {{StartDate}} </div>
                                 <div class="product_name">Thời gian còn lại: 2 ngày 18 giờ</div>
                                 <div class="product_name">Số lượt ra giá: 50</div>
-                                <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="product_cart_button">Xem chi tiết</button></a>
+                                <form method="POST">
+                                <div class="row">
+                                    <a class="col-6 p-1" href="/shop/{{CatID}}/products/{{ProID}}"><button class="product_cart_button btn btn-outline-primary ml-4">Xem chi tiết</button></a>
+                                    <a class="col-6 p-1" href="/shop/{{CatID}}/products/{{ProID}}"><button class="product_cart_button btn btn-outline-danger mr-4" type="submit" formaction="/shop/{{CatID}}/products/{{ProID}}/wishlist">Yêu Thích</button></a>                             
+                                </div>
+                               </form>
                             </div>
-                            <div class="product_fav"><i class="fas fa-heart"></i></div>
-                            <ul class="product_marks">
-                                <li class="product_mark product_discount">-25%</li>
-                                <li class="product_mark product_new">new</li>
-                            </ul>
                         </div>
                         {{/each}}
 

@@ -3,6 +3,7 @@ const productModel = require('../../models/product.model');
 const categoryModel = require('../../models/category.model');
 const userModel = require('../../models/user.model');
 const bidModel = require('../../models/user-bid-product.model');
+const wishModel = require('../../models/wishlist.model');
 const config = require('../../config/default.json');
 const moment = require('moment');
 const router = express.Router();
@@ -102,6 +103,18 @@ router.get('/:catID/products', async (req,res) => {
     });
 });
 
+
+router.post('/:catID/products/:proID/wishlist', restrictUser, async (req,res) => {
+    const proID = req.params.proID;
+    const entity = {
+        proID,
+        Username: req.session.authUser.Username,
+        UserID: req.session.authUser.UserID
+    };
+    const results = await wishModel.add(entity);
+    res.redirect('/user/wishlist');
+});
+
 router.get('/:catID/products/:proID', async (req,res) => {
     const proID = req.params.proID;
     const catID = req.params.catID;
@@ -135,6 +148,8 @@ router.get('/:catID/products/:proID', async (req,res) => {
         bidbyPro
     });
 });
+
+
 
 // Đấu giá trực tiếp
 router.post('/:catID/products/:proID/direct',restrictUser, async (req,res) => {
