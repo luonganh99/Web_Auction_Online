@@ -5,6 +5,7 @@ module.exports = (app) => {
     // Route Admin
     app.use('/admin/categories', require('../routes/admin/category.route'));
     app.use('/admin/upgrade', require('../routes/admin/upgrade.route'));
+    app.use('/admin/user', require('../routes/admin/user.route'));
 
     // Route User
     app.use('/user', restrictUser, require('../routes/user/categories.route'));

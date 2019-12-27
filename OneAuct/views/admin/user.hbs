@@ -1,5 +1,5 @@
 {{#section 'title'}}
-<title>Upgrade</title>
+<title>User</title>
 {{/section}}
 
 <div class="card shadow">
@@ -16,27 +16,35 @@
     {{else}}
 
     <table class="table table-hover">
-        <thead class="">
+        <thead>
                     <tr>
                         <th scope="col" class="text-center">#</th>
                         <th scope="col">Username</th>
-                        <th scope="col" class="text-center">Check</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Permission</th>
+                        <th scope="col" class="text-center">Downgrade</th>
                     </tr>
                 </thead>
-
         <tbody>
-            <form action="upgrade/post" method="POST">
+            <form action="user/post" method="POST">
                 {{#each users}}
                 <tr>
                     <th scope="row" class="text-center">{{ UserID }}</th>
                     <td>{{ Username }}</td>
-                    <td class="text-center"><input type="checkbox" name="UserID" value="{{UserID}}"></td>
+                    <td>{{ Email }}</td>
+                    <td>{{ Phone }}</td>
+                    <td>{{#if Permission}} Seller {{else}} Bidder {{/if}} </td>
+                    <td class="text-center"> {{#if Permission}}<input type="checkbox" name="UserID" value="{{UserID}}">{{/if}}</td>
                 </tr>
                 {{/each}}
                 <tr>
                     <td></td>
-                    <td class="text-center"><button class="btn btn-primary" type="submit">Upgrade</button></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center"><button class="btn btn-primary" type="submit">Downgrade</button></td>
                 </tr>
             </form>
 

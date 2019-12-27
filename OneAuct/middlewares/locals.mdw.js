@@ -8,10 +8,11 @@ module.exports = (app) => {
             parents[i].SubCategories = categories;
         }
         res.locals.lcCategories = parents;
+        res.locals.isAuthenticated = true;
         if(typeof(req.session.isAuthenticated) === 'undefined') {
-            req.session.isAuthenticated = false;
+            res.locals.isAuthenticated = false;
         }
-        res.locals.isAuthenticated = req.session.isAuthenticated;
+       
         res.locals.authUser = req.session.authUser;
         next();
     });

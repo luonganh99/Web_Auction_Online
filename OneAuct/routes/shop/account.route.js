@@ -52,15 +52,15 @@ router.post('/login', async (req,res) => {
         });
     }
 
-    // isAuthenticated = 0 : tài khoản admin
-    // isAuthenticated = 1 : tài khoản người mua
-    // isAuthenticated = 2 : tài khoản người bán
+    // isAuthenticated = 2 : tài khoản admin
+    // isAuthenticated = 0 : tài khoản người mua
+    // isAuthenticated = 1 : tài khoản người bán
 
     req.session.isAuthenticated = user.Permission;
     req.session.authUser = user;
 
     
-    if(req.session.isAuthenticated === 0){
+    if(req.session.isAuthenticated === 2){
         return res.redirect('/admin/categories');
     }
     let url = req.query.retUrl || '/';
