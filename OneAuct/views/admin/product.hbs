@@ -23,14 +23,16 @@
             <p class="card-text">{{TinyInfo}}</p>
           </div>
           <div class="card-footer text-center">
-            <a class="btn btn-sm btn-outline-primary" href="/products/{{ProID}}" role="button">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-              Details
-            </a>
-            <a class="btn btn-sm btn-outline-danger" href="#" role="button">
-              <i class="fa fa-trash" aria-hidden="true"></i>
-              Delete
-            </a>
+            <form method="POST">
+              <a class="btn btn-sm btn-outline-primary" href="#" role="button">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                Details
+              </a>
+              <button class="btn btn-sm btn-outline-danger" type="submit" formaction="/admin/categories/{{../parentID}}/product/{{CatID}}/delete/{{ProID}}"><i class="fa fa-trash" aria-hidden="true"></i>
+                Delete
+                </button>
+            </form>
+          
           </div>
         </div>
       </div>

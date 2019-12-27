@@ -77,8 +77,6 @@ router.post('/:parentID/add', async (req,res) => {
     res.redirect(`/admin/categories/${req.params.parentID}`);
 })
 
-
-
 router.get('/:parentID/edit/:catID', async (req, res) => {
     const category = await categoryModel.singleBySub(req.params.parentID,req.params.catID);
     if(category.length === 0){
@@ -89,8 +87,6 @@ router.get('/:parentID/edit/:catID', async (req, res) => {
         category
     });
 })
-
-
 
 router.post('/:parentID/del', async (req,res) => {
     console.log(req.body);
@@ -148,6 +144,12 @@ router.get('/:parentID/product/:catID', async (req,res) => {
         nameCategory: categories.CatName,
         empty: products.length === 0
     });
+});
+
+router.post('/:parentID/product/:catID/delete/:proID', async (req,res) => {
+    // Xóa
+    const results = await productModel.del(req.params.proID);
+    res.redirect(`/admin/categories/${req.params.parentID}/product/${req.params.catID}`);
 });
 
 module.exports = router;
