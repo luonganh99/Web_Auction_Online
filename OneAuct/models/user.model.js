@@ -21,5 +21,7 @@ module.exports = {
   bidder: async (proID) => {
     const rows = await db.load(`select * from users u, products p where u.UserID = p.BidderID and p.ProID = ${proID}`);
     return rows[0];
-  }
+  },
+  toSeller: (entity,condition) => db.patch('users',entity,condition) 
+
 };

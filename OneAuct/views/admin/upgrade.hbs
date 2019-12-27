@@ -1,0 +1,27 @@
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">UserID</th>
+      <th scope="col">Username</th>
+      <th scope="col">Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    <form action="upgrade/post" method="POST">
+    {{#each users}}
+    <tr>
+      <th scope="row">{{ UserID }}</th>
+      <td>{{ Username }}</td>
+      <td><input type="checkbox" name="UserID" value="{{UserID}}"></td>
+    </tr>
+    {{/each}}
+    <tr>
+        <td></td>
+        <td><button class="btn btn-primary" type="submit">Upgrade</button></td>
+        <td></td>
+    </tr>
+    </form>
+    
+
+  </tbody>
+</table>
