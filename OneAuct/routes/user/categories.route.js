@@ -4,6 +4,8 @@ const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
 const categoryModel = require('../../models/category.model');
 const rateModel = require('../../models/user-rate-user.model');
+const upgradeModel = require('../../models/users-upgrade-sellers.model');
+const restrictSeller = require('../../middlewares/authSeller.mdw');
 const multer = require('multer');
 
 // const storage = multer.diskStorage({
@@ -48,7 +50,7 @@ router.post('/password', (req,res) => {
 
 });
 
-router.get('/post', (req,res) => {
+router.get('/post', restrictSeller,  (req,res) => {
     res.render('user/post', {
         layout: 'user'
     });
@@ -64,7 +66,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-router.post('/post', (req,res) => {
+router.post('/post', restrictSeller, (req,res) => {
     upload.array('Images')(req, res, err => {
         if (err) {
 
@@ -127,5 +129,25 @@ router.get('/review', async (req,res) => {
         check
     });
 });
+
+router.get('/upgrade', (req,res) => {
+    res.render('user/upgrade', {
+        layout: 'user'
+    })
+})
+
+router.get('/postupgrade', async (req,res) => {
+    //Cập nhật bảng upgrade
+    const entity = {
+        UserID: req.session.authUser.UserID,
+        Username: req.session.authUser.Username
+    }
+    const results = await upgradeModel.add(entity);
+    res.render('user/upgrade', {
+        layout: 'user',
+        upgrade: true
+    });
+});
+
 
 module.exports = router;

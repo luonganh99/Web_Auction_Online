@@ -8,11 +8,21 @@ module.exports = (app) => {
             parents[i].SubCategories = categories;
         }
         res.locals.lcCategories = parents;
-        if(typeof(req.session.isAuthenticated) === 'undefined') {
-            req.session.isAuthenticated = false;
+        
+        if(typeof(req.session.isAuthenticated) === 'undefined' || req.session.isAuthenticated === false) {
+            //Chưa đăng nhập
+            res.locals.isAuthenticated = false;
+        } else {
+            //Sau khi đăng nhập
+            res.locals.isAuthenticated = true;
+            if(req.session.authUser.Permission === 1) {
+                res.locals.isSeller = true;
+            } else {
+                res.locals.isSeller = false;
+            }
         }
-        res.locals.isAuthenticated = req.session.isAuthenticated;
         res.locals.authUser = req.session.authUser;
+        
         next();
     });
 }

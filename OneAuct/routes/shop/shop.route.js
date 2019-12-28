@@ -127,10 +127,13 @@ router.get('/:catID/products/:proID', async (req,res) => {
         categoryModel.single(catID),
         userModel.seller(proID),
         userModel.bidder(proID),
-        bidModel.bidbyPro(proID)
+        bidModel.bidbyPro(proID),
     ])
-    
-    //Xu ly cua view - de vao phan front-end
+    let i = 1;
+    for(c of bidbyPro){
+        c.Index = i++;
+    }
+    //Xu ly cua view 
     let startDate = moment(product.StartDate);
     let expiryDate = moment(product.ExpiryDate);
     const diffDate = expiryDate.diff(startDate,'days');
@@ -142,27 +145,44 @@ router.get('/:catID/products/:proID', async (req,res) => {
     } else {
         product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
     }
-   
+    //Kiểm tra trang sản phẩm có phải mình là người đăng đấu giá hay không
+    let isOwn = false;
+    if(req.session.isAuthenticated){
+        if(req.session.authUser.Permission === 1 && req.session.authUser.UserID === seller.UserID) {
+            isOwn = true;
+        } 
+    }
+    
     res.render('main/shop/productsDetail', {
         product,
         category,
         seller,
         bidder,
         bidbyPro,
-        isBid: false
+        isBid: false,
+        isOwn
     });
+   
 });
 
+router.post('/:catID/products/:proID/update', async (req,res) => {
+    const condition = {
+        ProID: req.params.proID
+    }
+    const results = await productModel.append(req.body.AppendFullInfo,condition);
+    res.redirect(`/shop/${req.params.catID}/products/${req.params.proID}`);
+})
 
 router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
     const catID = req.params.catID;
     const proID = req.params.proID;
-    const [product, category, seller, bidder, bidbyPro] = await Promise.all([
+    const [product, category, seller, bidder, bidbyPro, isBan] = await Promise.all([
         productModel.single(proID),
         categoryModel.single(catID),
         userModel.seller(proID),
         userModel.bidder(proID),
-        bidModel.bidbyPro(proID)
+        bidModel.bidbyPro(proID),
+        bidModel.isBan(req.session.authUser.UserID,proID)
     ])
 
     const userID = req.session.authUser.UserID;
@@ -173,19 +193,31 @@ router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
     ]);
 
     const checkRate = goodRate / (goodRate + badRate);
-    // if(checkRate < 0.8){
-    //    return res.render('main/shop/productsDetail', {
-    //         product,
-    //         category,
-    //         seller,
-    //         bidder,
-    //         bidbyPro,
-    //         isBid: false,
-    //         err_message: 'Bạn không đủ quyền để đấu giá'
-    //    });
-    // }
-    
-  
+    if(checkRate < 0.8){
+       return res.render('main/shop/productsDetail', {
+            product,
+            category,
+            seller,
+            bidder,
+            bidbyPro,
+            isBid: false,
+            err_message: 'Bạn không đủ quyền để đấu giá'
+       });
+    }
+    //Kiểm tra người dùng có bị chặn bởi người bán
+ 
+    if(isBan.num_ban !== 0){
+        return res.render('main/shop/productsDetail', {
+            product,
+            category,
+            seller,
+            bidder,
+            bidbyPro,
+            isBid: false,
+            err_message: 'Bạn đã bị chặn bởi người bán'
+       });
+    }
+
     res.render('main/shop/productsDetail', {
         product,
         category,
@@ -195,6 +227,20 @@ router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
         isBid: true,
     });
 
+})
+router.post('/:catID/products/:proID/ban/:userID', restrictUser, async (req,res) => {
+   const entity = {
+       State: 1
+   }
+   const condition_1 = {
+       UserID: +req.params.userID,
+   }
+   const condition_2 = {
+        ProID: +req.params.proID,
+   }
+   const results = bidModel.patch_2(entity,condition_1,condition_2);
+
+    res.redirect(`/shop/${req.params.catID}/products/${req.params.proID}`);
 })
 
 // Đấu giá tự động

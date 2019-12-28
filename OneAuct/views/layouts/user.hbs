@@ -69,12 +69,28 @@
 												data-spm="Cancellations">Sản phẩm đã thắng</a></li>
 									</ul>
 								</li>
+								{{#if isSeller}}
+								<li class="item" id="My-Orders"><a href="auctionlist" data-spm="My-Orders"><span>Quản lý
+											sản phẩm</span></a>
+									<ul class="item-container">
+										<li id="Cancellations" class="sub"><a href="joininglist"
+												data-spm="Cancellations">Sản phẩm đang đấu giá</a></li>
+										<li id="Cancellations" class="sub"><a href="joinedlist"
+												data-spm="Cancellations">Sản phẩm đã đấu giá thành công</a></li>
+									</ul>
+								</li>
+								{{/if}}
 								<li class="item" id="My-Reviews"><a href="review" data-spm="My-Reviews"><span>Đánh giá của
 											tôi</span></a></li>
 								<li class="item" id="My-Wishlists"><a class="active" href="wishlist"
 										data-spm="My-Wishlists"><span>Sản phẩm yêu thích</span></a>
+								
+								{{#if isSeller}}
 								<li class="item" id="Sell-On-Lazada"><a href="post" data-spm="Sell-On-Lazada"><span>Đăng
-											dấu giá</span></a>
+											dấu giá</span></a> 
+								{{else}}
+								<li class="item" id="Sell-On-Lazada"><a href="upgrade" data-spm="Sell-On-Lazada"><span>Nâng cấp tài khoản</span></a>
+								{{/if}}
 							</ul>
 						</div>
 					</div>

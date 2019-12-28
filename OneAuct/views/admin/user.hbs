@@ -1,0 +1,60 @@
+{{#section 'title'}}
+<title>User</title>
+{{/section}}
+
+<div class="card shadow">
+    <h4 class="card-header">
+        Categories
+    </h4>
+
+    {{#if this.empty}}
+    <div class="card-body">
+        <p class="card-text">
+            Không có dữ liệu.
+        </p>
+    </div>
+    {{else}}
+
+    <table class="table table-hover">
+        <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Permission</th>
+                        <th scope="col" class="text-center">Downgrade</th>
+                    </tr>
+                </thead>
+        <tbody>
+            <form action="user/post" method="POST">
+                {{#each users}}
+                <tr>
+                    <th scope="row" class="text-center">{{ UserID }}</th>
+                    <td>{{ Username }}</td>
+                    <td>{{ Email }}</td>
+                    <td>{{ Phone }}</td>
+                    <td>{{#if Permission}} Seller {{else}} Bidder {{/if}} </td>
+                    <td class="text-center"> {{#if Permission}}<input type="checkbox" name="UserID" value="{{UserID}}">{{/if}}</td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-center"><button class="btn btn-primary" type="submit">Downgrade</button></td>
+                </tr>
+            </form>
+
+
+        </tbody>
+    </table>
+    {{/if}}
+
+    <div class="card-footer text-muted">
+        Footer
+    </div>
+</div>
+

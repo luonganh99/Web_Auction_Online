@@ -1,0 +1,38 @@
+{{#section 'title'}}
+    <title>Upgrade</title>
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/styles/account.css">
+{{/section}}
+
+<div class="userpage-content col-9">
+    
+    <div class="title breadcrumb justify-content-center">Nâng cấp tài khoản</div>
+    <div class="row mt-5 justify-content-center">
+        {{#if upgrade}}
+        <div class="card">
+            <div class="card-header">
+                 <div class="card-title" style="font-size: 16px; font-weight: bold;">Bạn đã gửi yêu cầu thành công</div>
+            </div>
+        </div>
+        {{else}}
+        <form action="postupgrade">
+            <div class="card ">
+            <div class="card-header">
+                 <div class="card-title" style="font-size: 16px; font-weight: bold;">Bạn có muốn gửi yêu cầu nâng cấp tài khoản thành người đăng đấu giá không ?</div>
+            </div>
+            <div class="card-body text-center">
+                <button class="btn btn-primary" type="submit">Gửi yêu cầu</button>
+            </div>
+        </div>
+        </form>
+        {{/if}}
+       
+        
+        
+        
+
+    </div>
+
+</div>

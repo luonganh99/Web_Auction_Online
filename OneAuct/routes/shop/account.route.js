@@ -39,7 +39,7 @@ router.post('/login', async (req,res) => {
 
     if(user === null)
     {
-        return res.render('main/account/view',{
+        return res.render('main/account/login',{
             err_message: 'Invalid username or password.'
         });
         //  throw new Error("Invalid username or password.");
@@ -52,15 +52,15 @@ router.post('/login', async (req,res) => {
         });
     }
 
-    // isAuthenticated = 0 : tài khoản admin
-    // isAuthenticated = 1 : tài khoản người mua
-    // isAuthenticated = 2 : tài khoản người bán
+    // isAuthenticated = 2 : tài khoản admin
+    // isAuthenticated = 0 : tài khoản người mua
+    // isAuthenticated = 1 : tài khoản người bán
 
     req.session.isAuthenticated = user.Permission;
     req.session.authUser = user;
 
     
-    if(req.session.isAuthenticated === 0){
+    if(req.session.isAuthenticated === 2){
         return res.redirect('/admin/categories');
     }
     let url = req.query.retUrl || '/';
@@ -73,10 +73,16 @@ router.post('/login', async (req,res) => {
 });
 
 router.post('/logout', (req,res) => {
-    req.session.isAuthenticated = false;
-    req.session.authUser = null;
-    console.log(req.headers.referer);
-    res.redirect(req.headers.referer);
+    if(req.session.authUser.Permission === 2)
+    {
+        req.session.isAuthenticated = false;
+        req.session.authUser = null;
+        res.redirect('/account/login');
+    } else {
+        req.session.isAuthenticated = false;
+        req.session.authUser = null;
+        res.redirect(req.headers.referer);
+    }
 });
 
 module.exports = router;

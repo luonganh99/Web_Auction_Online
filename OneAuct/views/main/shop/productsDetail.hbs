@@ -8,7 +8,24 @@
 {{/section}}
 
 {{#section 'js'}}
+
 <script src="/js/product_custom.js"></script>
+{{!-- Text input --}}
+<script src="https://cdn.tiny.cloud/1/c1jvw3qlu8agu5fn9nd4vy1r0exudpyv1c1bvrazfekhzubz/tinymce/5/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#txtAppendFullInfo',
+    height: 400,
+    plugins: 'paste image link autolink lists table media',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
+      'forecolor backcolor',
+      'table link image media',
+    ],
+  });
+</script>
+
 {{/section}}
 
 
@@ -78,7 +95,15 @@
 								{{ bidder.Username }}
 							</div>
 						</div>
+						<div class="d-flex flex-row justify-content-between">
+							<div class="title">Giới thiệu sản phẩm:</div>
+							<div class="content">
+								{{ product.TinyInfo }}
+							</div>
+						</div>
 
+
+						{{#if isOwn}} {{else}}
 						<form method="POST">
 							<div class="d-flex flex-row justify-content-between">
 								<div class="title">Thêm vào danh sách yêu thích</div>
@@ -89,21 +114,24 @@
 								</div>
 							</div>
 						</form>
-
+						{{/if}}
 					</div>
-
-					{{#if isBid}}
+					{{#if isOwn}}
+					{{else}}
+					{{#if isBid}} {{!-- Kiểm tra xem có đc phép đấu giá hay khônv  --}}
 					<div class="bid_btn">
 						<form method="POST">
-							<input type="number" name="Price" >
+							<input type="number" name="Price">
 							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct" type="submit">Đấu
+								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
+								type="submit">Đấu
 								giá trực tiếp</button>
 						</form>
 						<form method="POST">
-							<input type="number" name="Price" >
+							<input type="number" name="Price">
 							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct" type="submit">Đấu
+								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
+								type="submit">Đấu
 								giá tự động</button>
 						</form>
 
@@ -119,17 +147,87 @@
 
 					<div class="bid_btn mt-3">
 						<form method="POST">
-							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check" type="submit">Đấu
+							<button class="btn btn-outline-primary" formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check" type="submit">Đấu
 								giá tự động</a>
 						</form>
 					</div>
 					{{/if}}
+					{{/if}}
 
+				</div>
+			</div>
 
+		</div>
+	</div>
+</div>
 
+<!-- Description -->
 
-
+<div class="product-area mb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="li-product-tab">
+					<ul class="nav li-product-menu">
+						<li><a class="active" data-toggle="tab" href="#description"><span>Thông tin sản phẩm</span></a>
+						</li>
+						{{#if isOwn}}
+						<li><a data-toggle="tab" href="#product-details"><span>Lượt ra giá</span></a></li>
+						{{else}}
+						<li><a data-toggle="tab" href="#product-details"><span>Lịch sử đấu giá</span></a></li>
+						{{/if}}
+						
+					</ul>
+				</div>
+				<!-- Begin Li's Tab Menu Content Area -->
+			</div>
+		</div>
+		<div class="tab-content">
+			<div id="description" class="tab-pane active show" role="tabpanel">
+				<div class="product-description">
+					<div>{{{ product.FullInfo }}}</div>
+					{{#if isOwn}}
+					<div class="text-center lead font-weight-bold mt-3 mb-3">Bổ sung thông tin sản phẩm</div>
+					<div class="text-center">
+					<form action="{{product.ProID}}/update" method="POST">
+						<input type="text" name="AppendFullInfo" id="txtAppendFullInfo">
+						<button class="btn btn-primary mt-3" type="submit" >Cập nhật</button>
+					</form>
+					</div>
+					
+					{{/if}}
+				</div>
+			</div>
+			<div id="product-details" class="tab-pane" role="tabpanel">
+				<div class="product-details-manufacturer">
+					{{#if isOwn}}
+					<div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Người đặt</th>
+									<th scope="col">Giá</th>
+									<th scope="col">Thời gian</th>
+									<th scope="col">Từ Chối</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each bidbyPro}}
+								<form method="POST">
+								<tr>
+									<th scope="row">{{ Index }}</th>
+									<td>{{ Username }}</td>
+									<td>{{ Price }}</td>
+									<td>{{ BidTime }}</td>
+									<td>{{#if State}} Đã bị chặn {{else}}<button class="btn btn-secondary" type="submit" formaction="/shop/{{../product.CatID}}/products/{{../product.ProID}}/ban/{{UserID}}"><i class="fas fa-user-slash"></i></button>{{/if}}</td>
+								</tr>
+								</form>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+					{{else}}
 					<div class="history mt-3">
 						<div class="title">Lịch sử đấu giá</div>
 						<table style="width:100%">
@@ -150,62 +248,10 @@
 							data-target="#exampleModalCenter">Xem
 							thêm</a>
 					</div>
-
+					{{/if}}
 				</div>
 			</div>
 
-
-
-
-		</div>
-	</div>
-</div>
-
-<!-- Description -->
-
-<div class="product-area mb-5">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="li-product-tab">
-					<ul class="nav li-product-menu">
-						<li><a class="active" data-toggle="tab" href="#description"><span>Thông tin sản phẩm</span></a>
-						</li>
-						<li><a data-toggle="tab" href="#product-details"><span>Người bán</span></a></li>
-						<li><a data-toggle="tab" href="#reviews"><span>Vận Chuyển</span></a></li>
-					</ul>
-				</div>
-				<!-- Begin Li's Tab Menu Content Area -->
-			</div>
-		</div>
-		<div class="tab-content">
-			<div id="description" class="tab-pane active show" role="tabpanel">
-				<div class="product-description">
-					<div>{{ product.ProInfo }}</div>
-				</div>
-			</div>
-			<div id="product-details" class="tab-pane" role="tabpanel">
-				<div class="product-details-manufacturer">
-					<div>{{ seller.FullName }}</div>
-				</div>
-			</div>
-			<div id="reviews" class="tab-pane" role="tabpanel">
-				<div class="product-reviews">
-					<div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut deleniti nemo, quia assumenda
-						recusandae eveniet cupiditate non odio est nam tempora? Facilis rerum impedit officia animi!
-						Optio nisi aliquam nostrum perspiciatis non! A debitis non repudiandae ut eum, animi
-						accusantium, doloribus obcaecati cumque eaque, eveniet labore. Deserunt rem tempora pariatur,
-						reprehenderit corporis recusandae, labore quis sit iusto atque ea nemo qui sapiente, iste quae
-						quaerat. Placeat adipisci qui harum ex possimus quas doloremque amet animi? Iusto, deserunt at
-						repellat iure assumenda molestias nam molestiae unde veritatis sed, amet delectus libero
-						possimus nobis eum atque. Dolores saepe sapiente sed, officiis hic itaque asperiores ratione
-						nobis quo blanditiis necessitatibus, iste error exercitationem quia porro, eaque rem.
-						Perferendis, illo amet iste obcaecati accusantium corporis molestias reiciendis fugit esse
-						dolorem voluptatem molestiae! Rem voluptates temporibus consectetur non dolor cupiditate
-						praesentium magnam ducimus inventore beatae ut corrupti eligendi, deleniti quaerat voluptatibus
-						blanditiis molestiae, ipsum molestias?</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
