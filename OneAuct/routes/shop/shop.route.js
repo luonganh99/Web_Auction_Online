@@ -142,17 +142,33 @@ router.get('/:catID/products/:proID', async (req,res) => {
     } else {
         product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
     }
-   
+    //Kiểm tra trang sản phẩm có phải mình là người đăng đấu giá hay không
+    let isOwn = false;
+    if(req.session.isAuthenticated){
+        if(req.session.authUser.Permission === 1 && req.session.authUser.UserID === seller.UserID) {
+            isOwn = true;
+        } 
+    }
+    
     res.render('main/shop/productsDetail', {
         product,
         category,
         seller,
         bidder,
         bidbyPro,
-        isBid: false
+        isBid: false,
+        isOwn
     });
+   
 });
 
+router.post('/:catID/products/:proID/update', async (req,res) => {
+    const condition = {
+        ProID: req.params.proID
+    }
+    const results = await productModel.append(req.body.AppendFullInfo,condition);
+    res.redirect(`/shop/${req.params.catID}/products/${req.params.proID}`);
+})
 
 router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
     const catID = req.params.catID;
@@ -173,17 +189,17 @@ router.post('/:catID/products/:proID/check', restrictUser, async (req,res) => {
     ]);
 
     const checkRate = goodRate / (goodRate + badRate);
-    // if(checkRate < 0.8){
-    //    return res.render('main/shop/productsDetail', {
-    //         product,
-    //         category,
-    //         seller,
-    //         bidder,
-    //         bidbyPro,
-    //         isBid: false,
-    //         err_message: 'Bạn không đủ quyền để đấu giá'
-    //    });
-    // }
+    if(checkRate < 0.8){
+       return res.render('main/shop/productsDetail', {
+            product,
+            category,
+            seller,
+            bidder,
+            bidbyPro,
+            isBid: false,
+            err_message: 'Bạn không đủ quyền để đấu giá'
+       });
+    }
     
   
     res.render('main/shop/productsDetail', {

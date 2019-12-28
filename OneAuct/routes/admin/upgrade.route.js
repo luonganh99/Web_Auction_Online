@@ -1,5 +1,5 @@
 const express = require('express');
-const upgradeModel = require('../../models/upgrade.model');
+const upgradeModel = require('../../models/users-upgrade-sellers.model');
 const userModel = require('../../models/user.model');
 
 const router = express.Router();

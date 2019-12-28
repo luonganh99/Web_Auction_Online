@@ -8,7 +8,24 @@
 {{/section}}
 
 {{#section 'js'}}
+
 <script src="/js/product_custom.js"></script>
+{{!-- Text input --}}
+<script src="https://cdn.tiny.cloud/1/c1jvw3qlu8agu5fn9nd4vy1r0exudpyv1c1bvrazfekhzubz/tinymce/5/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#txtAppendFullInfo',
+    height: 400,
+    plugins: 'paste image link autolink lists table media',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright',
+      'forecolor backcolor',
+      'table link image media',
+    ],
+  });
+</script>
+
 {{/section}}
 
 
@@ -79,6 +96,7 @@
 							</div>
 						</div>
 
+						{{#if isOwn}} {{else}}
 						<form method="POST">
 							<div class="d-flex flex-row justify-content-between">
 								<div class="title">Thêm vào danh sách yêu thích</div>
@@ -89,21 +107,24 @@
 								</div>
 							</div>
 						</form>
-
+						{{/if}}
 					</div>
-
+					{{#if isOwn}}
+					{{else}}
 					{{#if isBid}}
 					<div class="bid_btn">
 						<form method="POST">
-							<input type="number" name="Price" >
+							<input type="number" name="Price">
 							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct" type="submit">Đấu
+								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
+								type="submit">Đấu
 								giá trực tiếp</button>
 						</form>
 						<form method="POST">
-							<input type="number" name="Price" >
+							<input type="number" name="Price">
 							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct" type="submit">Đấu
+								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
+								type="submit">Đấu
 								giá tự động</button>
 						</form>
 
@@ -125,7 +146,7 @@
 						</form>
 					</div>
 					{{/if}}
-
+					{{/if}}
 
 
 
@@ -181,7 +202,15 @@
 		<div class="tab-content">
 			<div id="description" class="tab-pane active show" role="tabpanel">
 				<div class="product-description">
-					<div>{{ product.ProInfo }}</div>
+					<div>{{{ product.FullInfo }}}</div>
+					{{#if isOwn}}
+				
+					<form action="{{product.ProID}}/update" method="POST">
+						<input type="text" name="AppendFullInfo"  id="txtAppendFullInfo">
+						<button class="btn btn-primary" type="submit">Bổ  sung thông tin</button>
+					</form>
+					
+					{{/if}}
 				</div>
 			</div>
 			<div id="product-details" class="tab-pane" role="tabpanel">

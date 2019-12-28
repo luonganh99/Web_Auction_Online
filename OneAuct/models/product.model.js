@@ -12,10 +12,13 @@ module.exports = {
     },
     add: entity => db.add('products', entity),
     del: id => db.del('products', {ProID: id}),
-    patch: entity => {
-        const condition = {ProID: entity.ProID};
-        delete entity.ProID;
+    patch: (entity,condition) => {
+        // const condition = {ProID: entity.ProID};
+        // delete entity.ProID;
         db.patch('products', entity, condition)
+    },
+    append: (stringAppend,condition) => {
+        db.append('products', 'FullInfo', stringAppend , condition)
     },
     count: async () => {
         const rows = await db.load('select count(ProID) as totalProducts from products');

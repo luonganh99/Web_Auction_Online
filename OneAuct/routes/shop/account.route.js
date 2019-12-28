@@ -39,7 +39,7 @@ router.post('/login', async (req,res) => {
 
     if(user === null)
     {
-        return res.render('main/account/view',{
+        return res.render('main/account/login',{
             err_message: 'Invalid username or password.'
         });
         //  throw new Error("Invalid username or password.");
@@ -73,10 +73,16 @@ router.post('/login', async (req,res) => {
 });
 
 router.post('/logout', (req,res) => {
-    req.session.isAuthenticated = false;
-    req.session.authUser = null;
-    console.log(req.headers.referer);
-    res.redirect(req.headers.referer);
+    if(req.session.authUser.Permission === 2)
+    {
+        req.session.isAuthenticated = false;
+        req.session.authUser = null;
+        res.redirect('/account/login');
+    } else {
+        req.session.isAuthenticated = false;
+        req.session.authUser = null;
+        res.redirect(req.headers.referer);
+    }
 });
 
 module.exports = router;

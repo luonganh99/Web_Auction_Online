@@ -15,8 +15,9 @@ module.exports = {
     load: sql => mysql_query(sql),
     add: (tableName, entity) => mysql_query(`insert into ${tableName} set ?`, entity),
     del: (tableName, entity) => mysql_query(`delete from ${tableName} where ?`, entity),
-    patch: (tableName, entity, condition) => mysql_query(`update ${tableName} set ? where ? `, [entity , condition])
-    
+    patch: (tableName, entity, condition) => mysql_query(`update ${tableName} set ? where ? `, [entity , condition]),
+    append: (tableName, columnName, appendString , condition) => mysql_query(`update ${tableName} set ${columnName} = concat(${columnName},'${appendString}') where ? `, [condition]),
+
     // Old way
     // load: sql =>  new Promise((done, fail) => {
     //         pool.query(sql, (error, results, fields) => {
