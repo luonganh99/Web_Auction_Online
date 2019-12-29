@@ -149,5 +149,12 @@ router.get('/postupgrade', async (req,res) => {
     });
 });
 
+router.get('/auctionlist', async (req,res) => {
+    const products = await productModel.auctionlist(req.session.authUser.UserID);
+    res.render('user/auctionlist', {
+        layout: 'user',
+        products
+    });
+})
 
 module.exports = router;

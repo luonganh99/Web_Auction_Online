@@ -32,6 +32,6 @@ module.exports = {
     joininglist: (userID) => db.load(`select * from (select ProID, Price from users_bid_products where UserID = ${userID} and State = 0 order by BidID desc limit 1) b , products p where b.ProID = p.ProID and p.State = 0`),
     joinedlist: (userID) => db.load(`select * from (select ProID, Price from users_bid_products where UserID = ${userID} and State = 0 order by BidID desc limit 1) b , products p where b.ProID = p.ProID and p.State = 1`),
     wonlist: (userID) => db.load(`select uSeller.FullName, p.ProID, p.ProName, p.TinyInfo, p.ExpiryDate, p.CurrentPrice FROM (select ProID, Price from users_bid_products where UserID =  ${userID}  and State = 0 order by BidID desc limit 1) b , products p, users uSeller, users uBidder  where b.ProID = p.ProID and p.SellerID = uSeller.UserID and uBidder.UserID = p.BidderID and p.State = 1 and uBidder.UserID =  ${userID}`),
-    reviewlist: (userID) => db.load(`select u.Username as SellerName, r.RateID, r.Grade, r.Message, p.ProName, p.ProID, p.CatID from users_rate_users r, products p, users u where r.Rated_UserID = ${userID} and p.ProID = r.ProID and p.State = 1 and r.UserID = p.SellerID and r.Rated_UserID = p.BidderID and u.UserID = p.SellerID
-    `)
+    reviewlist: (userID) => db.load(`select u.Username as SellerName, r.RateID, r.Grade, r.Message, p.ProName, p.ProID, p.CatID from users_rate_users r, products p, users u where r.Rated_UserID = ${userID} and p.ProID = r.ProID and p.State = 1 and r.UserID = p.SellerID and r.Rated_UserID = p.BidderID and u.UserID = p.SellerID`),
+    auctionlist: (userID) => db.load(`select * from products p, users u where p.SellerID = ${userID} and p.BidderID = u.UserID`)
 }
