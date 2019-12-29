@@ -157,4 +157,12 @@ router.get('/auctionlist', async (req,res) => {
     });
 })
 
+router.get('/successlist', async (req,res) => {
+    const products = await productModel.successlist(req.session.authUser.UserID);
+    res.render('user/successlist', {
+        layout: 'user',
+        products
+    });
+})
+
 module.exports = router;
