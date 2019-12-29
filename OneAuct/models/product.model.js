@@ -6,6 +6,7 @@ module.exports = {
     page: offset =>  db.load(`select * from products limit ${config.paginate.limit} offset ${offset}`),
     allbyCat: catID => db.load(`select * from products where CatID = ${catID}`),
     pagebyCat: (catID,offset) => db.load(`select * from products where CatID = ${catID} limit ${config.paginate.limit} offset ${offset}`),
+    pagebySearch: (key, offset) => db.load(`select * from products where match(ProName, TinyInfo, FullInfo) against ('${key}'  in natural language mode) limit ${config.paginate.limit} offset ${offset}`),
     single: async (id) => {
         const rows = await db.load(`select * from products where ProID = ${id}`);
         return rows[0];
@@ -26,6 +27,10 @@ module.exports = {
     },
     countbyCat: async (catID) => {
         const rows = await db.load(`select count(ProID) as numProducts from products where CatID = ${catID}`);
+        return rows[0].numProducts;
+    },
+    countbySearch: async (key) => {
+        const rows = await db.load(`select count(*) as numProducts from products where match(ProName, TinyInfo, FullInfo) against ('${key}'  in natural language mode)`);
         return rows[0].numProducts;
     },
     wishlist:  (userID) => db.load(`select p.ProID, p.ProName, p.CurrentPrice, p.State from (select * from wishlist where UserID = ${userID}) w join products p on w.ProID = p.ProID `),
