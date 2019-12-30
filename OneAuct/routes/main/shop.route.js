@@ -30,8 +30,9 @@ router.get('/', async(req,res) => {
     //Lay du lieu database
     const [totalProducts, products] = await Promise.all([
         productModel.count(),
-        productModel.page(offset,order)
+        productModel.page(offset,order),
     ]);
+
 
     //Tong so trang 
     let nPages = Math.floor(totalProducts/limit);

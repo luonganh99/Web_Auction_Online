@@ -3,10 +3,10 @@ const config = require('../config/default.json');
 
 module.exports = {
     all: () =>  db.load('select * from products'),
-    page: (offset,order) =>  db.load(`select * from products order by ${order} limit ${config.paginate.limit} offset ${offset}`),
+    page: (offset,order) =>  db.load(`select * from products p, users u where p.BidderID = u.UserID order by ${order} limit ${config.paginate.limit} offset ${offset}`),
     allbyCat: catID => db.load(`select * from products where CatID = ${catID}`),
-    pagebyCat: (catID,offset,order) => db.load(`select * from products where CatID = ${catID} order by ${order} limit ${config.paginate.limit} offset ${offset}`),
-    pagebySearch: (key, offset,order) => db.load(`select * from products where match(ProName, TinyInfo, FullInfo) against ('${key}'  in natural language mode) order by ${order} limit ${config.paginate.limit} offset ${offset}`),
+    pagebyCat: (catID,offset,order) => db.load(`select * from products p, users u where p.BidderID = u.UserID and CatID = ${catID} order by ${order} limit ${config.paginate.limit} offset ${offset}`),
+    pagebySearch: (key, offset,order) => db.load(`select * from products p, users u where match(ProName, TinyInfo, FullInfo) against ('${key}'  in natural language mode) and p.BidderID = u.UserID order by ${order} limit ${config.paginate.limit} offset ${offset}`),
     single: async (id) => {
         const rows = await db.load(`select * from products where ProID = ${id}`);
         return rows[0];
