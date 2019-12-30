@@ -21,16 +21,33 @@ router.get('/', async (req,res) => {
 
 router.get('/search', async (req,res) => {
     const key = req.query.key;
+    const orderBy = +req.query.orderBy || 0;
+    // == 0 thời gian giảm dần
+    // == 1 giá tăng dần
+
     //Tao offset tu page request
     const page = req.query.page || 1;
     if(page < 1) page = 1;
     const offset = (page - 1) * limit;
 
+    let nameOrder;
+    let order;
+    
+    
+    if(orderBy === 0) {
+        order = 'ExpiryDate'
+        nameOrder = "Thời gian giảm dần";
+    } else {
+        order = 'CurrentPrice'
+        nameOrder = "Giá tăng dần";
+    }
+
     //Lay du lieu tu database
     const [totalProducts,products] = await Promise.all([
         productModel.countbySearch(key),
-        productModel.pagebySearch(key,offset),
+        productModel.pagebySearch(key,offset,order),
     ]);
+
     //Tong so trang
     let nPages = Math.floor(totalProducts/limit);
     if(totalProducts%limit > 0) nPages++;
@@ -58,7 +75,11 @@ router.get('/search', async (req,res) => {
         next_value,
         empty: products.length === 0,
         key,
+        nameOrder,
+        orderBy
     });
 });
+
+
 
 module.exports = router;

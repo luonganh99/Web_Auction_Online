@@ -12,16 +12,25 @@ const restrictUser = require('../../middlewares/authUser.mdw');
 const limit = config.paginate.limit;
 
 router.get('/', async(req,res) => {
-   
+    const orderBy = +req.query.orderBy || 0;
     //Tao offset tu page request
     const page = req.query.page || 1;
     if(page < 1) page = 1;
     const offset = (page - 1) * limit;
 
+    let nameOrder;
+    let order;
+    if(orderBy === 0) {
+        order = 'ExpiryDate'
+        nameOrder = "Thời gian giảm dần";
+    } else {
+        order = 'CurrentPrice'
+        nameOrder = "Giá tăng dần";
+    }
     //Lay du lieu database
     const [totalProducts, products] = await Promise.all([
         productModel.count(),
-        productModel.page(offset)
+        productModel.page(offset,order)
     ]);
 
     //Tong so trang 
@@ -50,12 +59,14 @@ router.get('/', async(req,res) => {
         prev_value,
         next_value,
         nameCategory: 'Tất Cả Danh Mục',
-        empty: products.length === 0
+        empty: products.length === 0,
+        nameOrder,
+        orderBy
     });
 });
 
 router.get('/:catID/products', async (req,res) => {
-
+    const orderBy = +req.query.orderBy || 0;
     // let numProducts;
     // for(const c of res.locals.lcCategories){
     //     if(c.CatID === +catID) {
@@ -69,10 +80,20 @@ router.get('/:catID/products', async (req,res) => {
     if(page < 1) page = 1;
     const offset = (page - 1) * limit;
 
+    let nameOrder;
+    let order;
+    if(orderBy === 0) {
+        order = 'ExpiryDate'
+        nameOrder = "Thời gian giảm dần";
+    } else {
+        order = 'CurrentPrice'
+        nameOrder = "Giá tăng dần";
+    }
+
     //Lay du lieu tu database
     const [totalProducts,products,categories] = await Promise.all([
         productModel.countbyCat(catID),
-        productModel.pagebyCat(catID,offset),
+        productModel.pagebyCat(catID,offset,order),
         categoryModel.single(catID)
     ]);
     //Tong so trang
@@ -100,7 +121,9 @@ router.get('/:catID/products', async (req,res) => {
         prev_value,
         next_value,
         nameCategory: categories.CatName,
-        empty: products.length === 0
+        empty: products.length === 0,
+        nameOrder,
+        orderBy
     });
 });
 
