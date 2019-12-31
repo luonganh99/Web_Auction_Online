@@ -5,4 +5,5 @@ module.exports = {
     single: id => db.load(`select * from wishlist where UserID = ${id}`),
     add: entity => db.add('wishlist', entity),
     del: id => db.del('wishlist', { BidID: id }),
+    isExists: (userID,proID) => db.load(`select * from wishlist where UserID = ${userID} and ProID = ${proID}`)
 }  

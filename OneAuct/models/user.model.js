@@ -23,6 +23,7 @@ module.exports = {
     return rows[0];
   },
   patchPermission: (entity,condition) => db.patch('users',entity,condition),
-  isExists: (email) => db.load(`select * from users where Email = '${email}'`)
-
+  isExists: (email) => db.load(`select * from users where Email = '${email}'`),
+  isExists_Pass: (password) => db.load(`select * from users where Password = ${password}`),
+  patch: (entity,condition) => db.patch('users',entity,condition)
 };

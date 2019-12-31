@@ -135,8 +135,11 @@ router.post('/:catID/products/:proID/wishlist', restrictUser, async (req,res) =>
         Username: req.session.authUser.Username,
         UserID: req.session.authUser.UserID
     };
-    const results = await wishModel.add(entity);
-    res.redirect('/user/wishlist');
+    const isExists = await wishModel.isExists(entity.UserID,entity.proID,);
+    if(isExists.length === 0) {
+        const results = await wishModel.add(entity);
+    }
+    return res.redirect('/user/wishlist');
 });
 
 router.get('/:catID/products/:proID', async (req,res) => {

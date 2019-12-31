@@ -6,8 +6,10 @@ const categoryModel = require('../../models/category.model');
 const rateModel = require('../../models/user-rate-user.model');
 const upgradeModel = require('../../models/users-upgrade-sellers.model');
 const restrictSeller = require('../../middlewares/authSeller.mdw');
+const bcrypt = require('bcryptjs');
+const config = require('../../config/default.json');
 const multer = require('multer');
-
+const N = config.hash.N;
 // const storage = multer.diskStorage({
 //     filename: function(req,file,cb){
 //         cb(null, file.originalname);
@@ -46,8 +48,33 @@ router.get('/password', (req,res) => {
     });
 });
 
-router.post('/password', (req,res) => {
-
+router.post('/password', async (req,res) => {
+    // Kiểm tra mật khẩu cũ đúng k
+    const oldPassword = req.body.Old_Password;
+    const rawPassword = req.body.Raw_Password;
+    const user = await userModel.singleByUsername(req.session.authUser.Username);
+    const rs = bcrypt.compareSync(oldPassword, user.Password);
+   
+    if(rs === false) {
+        return res.render('user/password',{
+            layout: 'user',
+            err_message: 'Sai mật khẩu. bui lòng thử lại !'
+        });
+    }
+    
+    //Cập nhật lại mật khẩu
+    const hash = bcrypt.hashSync(rawPassword, N); 
+    const entity = {
+        Password: hash
+    }
+    const condition = {
+        UserID: user.UserID
+    }
+    const results = userModel.patch(entity,condition);
+    res.render('user/password', {
+        layout: 'user',
+        err_message: 'Đổi mật khẩu thành công'
+    })
 });
 
 router.get('/post', restrictSeller,  (req,res) => {

@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const userModel = require('../../models/user.model');
 const request = require('request');
+const config = require('../../config/default.json');
+const N = config.hash.N;
 const router = express.Router();
 
 
@@ -17,7 +19,7 @@ router.post('/register', async (req,res) => {
         req.body['g-recaptcha-response'] === null
     ) {
         return res.render('main/account/register', {
-            err_message: 'Please fill captcha',
+            err_message: 'Vui lòng điền captcha!',
         });
     }
 
@@ -28,7 +30,7 @@ router.post('/register', async (req,res) => {
         //Không thành công
         if(body.success !==  undefined && !body.success) {
             return res.render('main/account/register', {
-                err_message: 'Failed captcha verification',
+                err_message: 'xác nhận captcha thất bại!',
             });
         }
     });
@@ -38,11 +40,9 @@ router.post('/register', async (req,res) => {
 
      const isExists = await userModel.isExists(entity.Email);
      if(isExists.length === 0){
-        const N = 5;
         const hash = bcrypt.hashSync(req.body.Raw_Password, N); 
         const date = moment(req.body.Date_of_Birth, 'DD/MM/YYYY').format('YYYY-MM-DD');
         
-        console.log(entity);
         entity.Password = hash;
         entity.DoB = date;
         entity.Fullname = req.body.Lastname + ' ' + req.body.Firstname;
@@ -58,7 +58,7 @@ router.post('/register', async (req,res) => {
      }
      else {
         return res.render('main/account/register', {
-            err_message: 'Email exists !',
+            err_message: 'Email đã tồn tại!',
         });
      }
     
