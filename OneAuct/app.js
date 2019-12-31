@@ -29,6 +29,20 @@ app.engine('hbs', exhbs({
     helpers: {
         format: val => numeral(val).format('0,0') + ' đ',
         section: hbs_sections(),
+        mask: user => {
+            let i = 0;
+            const mask = 4;
+            let maskUser = '';
+            for(let c of user){
+                if(i < mask) {
+                    maskUser += '*';
+                } else {
+                    maskUser += c;
+                }
+                i++;
+            }
+            return maskUser;
+        }
     }
 }));
 

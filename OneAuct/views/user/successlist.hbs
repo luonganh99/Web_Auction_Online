@@ -1,0 +1,42 @@
+{{#section 'title'}}
+    <title>Auction List</title>
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/styles/account.css">
+    <link rel="stylesheet" type="text/css" href="/styles/auctionlist.css">
+{{/section}}
+
+
+{{!-- Joining List --}}
+
+<div class="userpage-content col-9">
+    <div class="title breadcrumb justify-content-center">Sản phẩm đã đấu giá thành công</div>
+    <div class="row mt-4">
+
+        {{#each products}}
+        <div class="card ml-3 mr-3 mb-4">
+            <div class="card-header d-flex flex-row justify-content-between">
+                <div class="name"> Tên sản phẩm: {{ ProName }}</div>
+                <div class="state ml-3"> Đấu giá kết thúc: {{ ExpiryDate }}</div>
+            </div>
+            <div class="card-body">
+                <div class="infor d-flex flex-row justify-content-between mb-4">
+                    <img class="mr-2" style="width: 200px; height: 200px;" src="/images/product/{{ProID}}/main_thumbs.jpg" alt="">
+                    <div class="text">{{ TinyInfo }}</div>
+                    <div class="bottom">
+                        <div class="yourbid">Người thắng: <span class="text-right">{{ Username }}</span></div>
+                        <div class="current">Giá: <span class="text-right">{{ CurrentPrice }}</span>
+                        </div>
+                        <div class="view-auction">
+                            <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="submit-button">Xem chi tiết</button></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>

@@ -12,5 +12,5 @@ module.exports = {
     badReview: async id => {
         const rows = await db.load(`select count(*) as badRate from users_rate_users where Rated_UserID = ${id} and Grade = -1`);
         return rows[0].badRate;
-    }
+    },
 }  

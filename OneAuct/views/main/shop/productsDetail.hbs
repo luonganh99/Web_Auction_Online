@@ -69,7 +69,7 @@
 					{{/if}}
 					<div class="current_bid mb-2 mt-2">
 						<div class="title">Giá hiện tại </div>
-						<div class="product_price">{{ format product.StartPrice }}</div>
+						<div class="product_price">{{ format product.CurrentPrice }}</div>
 					</div>
 
 					<div class="time_remain">
@@ -86,13 +86,13 @@
 						<div class="d-flex flex-row justify-content-between">
 							<div class="title">Người bán:</div>
 							<div class="content">
-								{{ seller.Username }}
+								{{mask seller.Username }} - <i class="far fa-laugh-beam"></i>
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
-							<div class="title">Người đấu giá cao nhất:</div>
+							<div class="title">Người giữ giá:</div>
 							<div class="content">
-								{{ bidder.Username }}
+								{{mask bidder.Username }} - <i class="far fa-frown-open"></i>
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
@@ -124,8 +124,7 @@
 							<input type="number" name="Price">
 							<button class="btn btn-outline-primary"
 								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
-								type="submit">Đấu
-								giá trực tiếp</button>
+								type="submit">Đấu giá trực tiếp</button>
 						</form>
 						<form method="POST">
 							<input type="number" name="Price">
@@ -138,18 +137,7 @@
 					</div>
 					{{else}}
 					<div class="bid_btn">
-						<form method="POST">
-							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check" type="submit">Đấu
-								giá trực tiếp</button>
-						</form>
-					</div>
-
-					<div class="bid_btn mt-3">
-						<form method="POST">
-							<button class="btn btn-outline-primary" formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check" type="submit">Đấu
-								giá tự động</a>
-						</form>
+						<a href="/shop/{{product.CatID}}/products/{{product.ProID}}/check" class="btn btn-outline-primary">Bắt đấu đấu giá<a>
 					</div>
 					{{/if}}
 					{{/if}}
@@ -175,6 +163,7 @@
 						<li><a data-toggle="tab" href="#product-details"><span>Lượt ra giá</span></a></li>
 						{{else}}
 						<li><a data-toggle="tab" href="#product-details"><span>Lịch sử đấu giá</span></a></li>
+						<li><a data-toggle="tab" href="#product-rates"><span>Đánh giá của người bán</span></a></li>
 						{{/if}}
 						
 					</ul>
@@ -229,17 +218,18 @@
 					</div>
 					{{else}}
 					<div class="history mt-3">
-						<div class="title">Lịch sử đấu giá</div>
-						<table style="width:100%">
+						<table class="table table-striped">
 							<tr>
-								<th>Thời điểm</th>
-								<th>Người mua</th>
-								<th>Giá</th>
+								<th scope="col">#</th>
+								<th scope="col">Thời gian</th>
+								<th scope="col">Người mua</th>
+								<th scope="col">Giá</th>
 							</tr>
 							{{#each bidbyPro}}
 							<tr>
+								<th scope="row">{{ Index }}</th>
 								<td> {{ BidTime }} </td>
-								<td> {{ Username }} </td>
+								<td> {{	mask Username }} </td>
 								<td> {{ Price }} </td>
 							</tr>
 							{{/each}}
@@ -251,7 +241,20 @@
 					{{/if}}
 				</div>
 			</div>
-
+			<div id="product-rates" class="tab-pane" role="tabpanel">
+				 <div class="card ml-3 mr-3 mb-4">
+                <div class="card-header d-flex flex-row">
+                    <div class="name">{{mask seller.Username}}</div>
+                </div>
+                <div class="card-body">
+                    <div class="infor d-flex flex-row mb-4">
+                        <div class="mr-5"><i class="far fa-thumbs-up"><span class="ml-3">{{goodRate}}</span></i></div>
+                        <div><i class="far fa-thumbs-down"><span class="ml-3">{{badRate}}</span></i></div>
+                    </div>
+                  
+                </div>
+            </div>
+			</div>
 		</div>
 	</div>
 </div>
