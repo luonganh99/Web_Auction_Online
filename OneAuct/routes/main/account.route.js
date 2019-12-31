@@ -22,32 +22,46 @@ router.post('/register', async (req,res) => {
     }
 
     const secretKey = '6LdMCMsUAAAAAHPmuiQECcsC4_vxby2ERUtBRPwZ';
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip${req.connection.remoteAddress}`;
-    request(verifyUrl, (err, res, body) => {
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip${req.connection.remoteAddress}`;
+    request(verifyUrl, (err, response, body) => {
         body = JSON.parse(body);
-
         //Không thành công
         if(body.success !==  undefined && !body.success) {
-            return res.json({"success" : "false", "msg" : "Failed captcha verification"});
+            return res.render('main/account/register', {
+                err_message: 'Failed captcha verification',
+            });
         }
     });
+
      //Thành công
-     const N = 5;
-     const hash = bcrypt.hashSync(req.body.Raw_Password, N); 
-     const date = moment(req.body.Date_of_Birth, 'DD/MM/YYYY').format('YYYY-MM-DD');
      const entity = req.body;
-     entity.Password = hash;
-     entity.DoB = date;
-     entity.Fullname = req.body.Lastname + ' ' + req.body.Firstname;
-     entity.RateNumber = 10;
- 
-     delete entity.Raw_Password;
-     delete entity.Date_of_Birth;
-     delete entity.Firstname;
-     delete entity.Lastname;
- 
-     const result = await userModel.add(entity);
-     res.render('main/account/login');
+
+     const isExists = await userModel.isExists(entity.Email);
+     if(isExists.length === 0){
+        const N = 5;
+        const hash = bcrypt.hashSync(req.body.Raw_Password, N); 
+        const date = moment(req.body.Date_of_Birth, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        
+        console.log(entity);
+        entity.Password = hash;
+        entity.DoB = date;
+        entity.Fullname = req.body.Lastname + ' ' + req.body.Firstname;
+        entity.RateNumber = 10;
+    
+        delete entity.Raw_Password;
+        delete entity.Date_of_Birth;
+        delete entity.Firstname;
+        delete entity.Lastname;
+        delete entity['g-recaptcha-response'];
+        const result = await userModel.add(entity);
+        return res.render('main/account/login');
+     }
+     else {
+        return res.render('main/account/register', {
+            err_message: 'Email exists !',
+        });
+     }
+    
 });
 
 

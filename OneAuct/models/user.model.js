@@ -22,6 +22,7 @@ module.exports = {
     const rows = await db.load(`select * from users u, products p where u.UserID = p.BidderID and p.ProID = ${proID}`);
     return rows[0];
   },
-  patchPermission: (entity,condition) => db.patch('users',entity,condition) 
+  patchPermission: (entity,condition) => db.patch('users',entity,condition),
+  isExists: (email) => db.load(`select * from users where Email = '${email}'`)
 
 };
