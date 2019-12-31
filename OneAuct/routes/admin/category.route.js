@@ -110,7 +110,7 @@ router.get('/:parentID/product/:catID', async (req,res) => {
     //Lay du lieu tu database
     const [totalProducts,products,categories] = await Promise.all([
         productModel.countbyCat(catID),
-        productModel.pagebyCat(catID,offset),
+        productModel.pagebyCat(catID,offset,'ProID'),
         categoryModel.single(catID)
     ]);
     //Tong so trang

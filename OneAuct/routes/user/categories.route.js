@@ -137,7 +137,7 @@ router.get('/wishlist', async (req, res) => {
 });
 
 router.get('/review', async (req,res) => {
-    const [rates, goodRate, badRate] = await Promise.all([
+    const [products, goodRate, badRate] = await Promise.all([
         productModel.reviewlist(req.session.authUser.UserID),
         rateModel.goodReview(req.session.authUser.UserID),
         rateModel.badReview(req.session.authUser.UserID)
@@ -150,7 +150,7 @@ router.get('/review', async (req,res) => {
     }
     res.render('user/review', {
         layout: 'user',
-        rates,
+        products,
         goodRate,
         badRate,
         check

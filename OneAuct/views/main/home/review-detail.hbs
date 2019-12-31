@@ -1,0 +1,43 @@
+{{#section 'title'}}
+	<title>Reiew Detail</title>	
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/styles/shop_styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shop_responsive.css">
+{{/section}}
+
+{{#section 'js'}}
+	<script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
+	<script src="/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="/js/shop_custom.js"></script>
+{{/section}}
+
+<div class="container mt-5">
+
+<div class="title breadcrumb justify-content-center" style="font-size: 20px;">Đánh giá chi tiết của {{mask user.Username}}</div>
+ {{#each products}}
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Người Đánh Giá</th>
+      <th scope="col">Nhận Xét</th>
+      <th scope="col">Đánh giá</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{{Username}}</td>
+      <td>{{Message}}</td>
+      <td>{{#if Grade}} <i class="far fa-thumbs-up"></i> {{else}} <i class="far fa-thumbs-down"></i> {{/if}} </td>
+    </tr>
+
+  </tbody>
+</table>
+{{/each}}
+</div>
+ 
+

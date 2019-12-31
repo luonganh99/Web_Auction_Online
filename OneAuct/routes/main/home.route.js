@@ -1,5 +1,7 @@
 const express = require('express');
 const productModel = require('../../models/product.model');
+const rateModel = require('../../models/user-rate-user.model');
+const userModel = require('../../models/user.model');
 const config = require('../../config/default.json');
 const limit = config.paginate.limit;
 
@@ -80,6 +82,28 @@ router.get('/search', async (req,res) => {
     });
 });
 
+router.get('/review', async (req,res)=> {
+    const [products, goodRate, badRate, user] = await Promise.all([
+        productModel.reviewlist(req.query.UserID),
+        rateModel.goodReview(req.query.UserID),
+        rateModel.badReview(req.query.UserID),
+        userModel.single(req.query.UserID)
+    ]);
+    //Tính phần trăm điểm đánh giá
+    const checkRate = goodRate / (goodRate + badRate);
+    let check = true;
+    if(checkRate < 0.8){
+        check = false;
+    }
+    res.render('main/home/review-detail', {
+        products,
+        goodRate,
+        badRate,
+        check,
+        user
+    });
 
+
+})
 
 module.exports = router;

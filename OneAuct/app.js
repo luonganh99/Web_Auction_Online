@@ -42,8 +42,9 @@ app.engine('hbs', exhbs({
                 i++;
             }
             return maskUser;
-        }
-    }
+        },
+    },
+
 }));
 
 require('./middlewares/locals.mdw')(app);

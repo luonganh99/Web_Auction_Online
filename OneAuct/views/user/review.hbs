@@ -21,36 +21,41 @@
                         <div class="mr-5"><i class="far fa-thumbs-up"><span class="ml-3">{{goodRate}}</span></i></div>
                         <div><i class="far fa-thumbs-down"><span class="ml-3">{{badRate}}</span></i></div>
                     </div>
-                    <div>Quyền: <span> {{#if check}} Được tham gia đấu giá {{else}} Không đươc tham gia đấu giá {{/if}} </span></div>
+                    <div>Quyền: <span> {{#if check}} Được tham gia đấu giá {{else}} Không đươc tham gia đấu giá {{/if}}
+                        </span></div>
                 </div>
+
             </div>
-        </div>
 
+            <!-- item -->
+            <div class="  mt-2">
+                <div class="review">
+                   
+                {{#each products}}
+                <div class="card ml-3 mr-3 mb-4">
+                    <div class="card-header d-flex flex-row justify-content-between">
+                        <div class="name"> Tên sản phẩm: {{ ProName }}</div>
+                        <div class="state ml-3"> Đấu giá kết thúc: {{ ExpiryDate }}</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="infor d-flex flex-row justify-content-between mb-4">
+                            <img class="mr-2" style="width: 200px; height: 200px;"
+                                src="/images/product/{{ProID}}/main_thumbs.jpg" alt="">
+                            <div class="text">{{ Message }}</div>
+                            <div class="bottom">
+                                <div class="yourbid">Người thắng: <span class="text-right">{{ Username }}</span></div>
+                                <div class="current">Giá: <span class="text-right">{{ CurrentPrice }}</span>
+                                </div>
+                                <div class="view-auction">
+                                    <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="submit-button">Xem chi
+                                            tiết</button></a>
+                                </div>
+                            </div>
 
-    </div>
-    
-    <!-- item -->
-    <div class="row mt-2">
-        <div class="review">
-            {{#each rates}}
-            <div class="card ml-3 mr-3 mb-4">
-                <div class="card-header d-flex flex-row justify-content-between">
-                    <div class="name"><i class="far fa-thumbs-up mr-3"></i>{{SellerName}}</div>
-                    <div class="state ml-3">Đã đấu giá</div>
-                </div>
-                <div class="card-body">
-                    <div class="infor d-flex flex-row justify-content-between mb-4 align-items-center">
-                        <img class="mr-2" src="/images/product/{{ProID}}/main_thumbs.jpg" style="width: 150px; height: 150px;" alt="">
-                        <div class="text ml-2">{{ Message }}</div>
-                        <div class="view_auction">
-                            <a href="/shop/{{CatID}}/products/{{ProID}}" class="btn btn-outline-info">Xem Chi
-                                Tiết</a>
                         </div>
-
                     </div>
                 </div>
+                {{/each}}
+                </div>
             </div>
-            {{/each}}
         </div>
-    </div>
-</div>
