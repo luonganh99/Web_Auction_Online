@@ -54,10 +54,27 @@ require('./middlewares/locals.mdw')(app);
 require('./middlewares/routes.mdw')(app);
 
 //Error handler
-app.use((err,req,res,next) => {
-    console.log(err.stack);
-    res.status(500).send('View error on console');
-});
+// app.use((err,req,res,next) => {
+//     console.log(err.stack);
+//     res.status(500).send('View error on console');
+// });
+
+app.use((req, res, next) => {
+	next(createError(404));
+})
+app.use((err, req, res, next) => {
+	var status = err.status || 500;
+	var errorView = 'error';
+	if (status === 404)
+		errorView = '404';
+	var msg = err.message;
+	var error = err;
+	res.status(status).render(errorView, {
+		layout: false,
+		msg,
+		error
+	})
+})
 
 app.listen(3000, () => {
     console.log("Server is running ...");

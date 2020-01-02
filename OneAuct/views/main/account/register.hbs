@@ -52,11 +52,11 @@
                             <div class="row">
                                 <div class="col-md-12 mb-5">
                                     <label>Tên đăng nhập</label>
-                                    <input class="mb-0" type="text" id="Username" name="Username"placeholder="luonganh" required>
+                                    <input  class="mb-0 form-control" type="text" id="Username" name="Username" placeholder="luonganh" pattern="[a-zA-Z0-9-]+"  oninvalid="setCustomValidity('Tên đăng nhập phải là kí tự thường và số')"  required>
                                 </div>
                                 <div class="col-md-6 mb-5">
                                     <label>Mật khẩu</label>
-                                    <input class="mb-0" type="password" id="Raw_Password" name="Raw_Password" placeholder="Password" required>
+                                    <input class="mb-0" type="password" id="Raw_Password" name="Raw_Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" oninvalid="setCustomValidity('Mật khẩu phải có 8 ký tự, bao gồm ký tự hoa, thường và số')" required>
                                 </div>
                                 <div class="col-md-6 mb-5">
                                     <label>Xác nhận mật khẩu</label>
@@ -67,11 +67,11 @@
                             <div class="row">
                                 <div class="col-md-6 col-12 mb-5">
                                     <label>Họ</label>
-                                    <input class="mb-0" type="text" id="Lastname" name="Lastname" placeholder="Nguyễn Hữu" required>
+                                    <input class="mb-0" type="text" id="Lastname" name="Lastname"  placeholder="Nguyễn Hữu" required>
                                 </div>
                                 <div class="col-md-6 col-12 mb-5">
                                     <label>Tên</label>
-                                    <input class="mb-0" type="text" id="Firstname" name="Firstname" placeholder="Lương Anh" required>
+                                    <input class="mb-0" type="text" id="Firstname" name="Firstname"  placeholder="Lương Anh" required>
                                 </div>
                                 <div class="col-md-12 mb-5">
                                     <label>Email</label>
@@ -79,7 +79,7 @@
                                 </div>
                                  <div class="col-md-12 mb-5">
                                     <label>Số Điện Thoại</label>
-                                    <input class="mb-0" type="tel" id="Phone" name="Phone" placeholder="0123456789" required>
+                                    <input class="mb-0" type="tel" id="Phone" name="Phone" pattern="[0][0-9]+"   maxlength="10" placeholder="0123456789" oninvalid="setCustomValidity('Số điện thoại phải gồm 10 chữ số')" required>
                                 </div>
                                 <div class="col-md-12 mb-5">
                                     <label>Địa Chỉ</label>
@@ -109,17 +109,22 @@
 </div>
 
 <script>
-    var password = document.getElementById("Raw_Password")
-  , confirm_password = document.getElementById("confirm_password");
+    var password = document.getElementById("Raw_Password"), confirm_password = document.getElementById("confirm_password");
 
-function validatePassword(){
-  if(password.value != confirm_password.value) {
-    confirm_password.setCustomValidity("Passwords Don't Match");
-  } else {
-    confirm_password.setCustomValidity('');
-  }
-}
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Mật khẩu chưa đúng. Vui lòng nhập lại!");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
 
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
+    var phone = document.getElementById("Phone");
+    
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+
+
 </script>
