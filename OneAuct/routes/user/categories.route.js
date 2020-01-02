@@ -3,6 +3,7 @@ const productModel = require('../../models/product.model');
 const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
 const categoryModel = require('../../models/category.model');
+const wishModel = require('../../models/wishlist.model');
 const rateModel = require('../../models/user-rate-user.model');
 const upgradeModel = require('../../models/users-upgrade-sellers.model');
 const restrictSeller = require('../../middlewares/authSeller.mdw');
@@ -190,6 +191,38 @@ router.get('/successlist', async (req,res) => {
         layout: 'user',
         products
     });
+})
+
+router.get('/rate', (req,res) => {
+    res.render('user/rate', {
+        layout: 'user',
+        product: req.query
+    })
+})
+
+router.post('/rate', async (req,res) => {
+
+    const entity = {
+        UserID: req.session.authUser.UserID,
+        Username: req.session.authUser.Username,
+        Rated_UserID: req.body.Rated_UserID,
+        Rated_Username: req.body.Rated_Username,
+        ProID: +req.body.ProID,
+        Message: req.body.Message,
+    }
+
+    if( req.body.Grade === 'true')
+        entity.Grade = true;
+    else 
+        entity.Grade = false;
+    const results = await rateModel.add(entity);
+    res.redirect('/user/profile');
+})
+
+router.get('/delete', async (req,res) => {
+    console.log(req.query.ProID);
+    const results = await wishModel.del_2(req.query.ProID, req.session.authUser.UserID);
+    res.redirect('/user/wishlist');
 })
 
 module.exports = router;

@@ -27,11 +27,11 @@
 
                     {{#each products}}
                     <tr>
-                        <td class="li-product-remove"><a href="#"><i class="fas fa-times"></i></a></td>
+                        <td class="li-product-remove"><a href="/user/delete?ProID={{ProID}}"><i class="fas fa-times"></i></a></td>
                         <td class="li-product-thumbnail"><a href="#"><img src="/images/product/{{ProID}}/main_thumbs.jpg" alt=""></a>
                         </td>
-                        <td class="li-product-name"><a href="#">{{ ProName }}</a></td>
-                        <td class="li-product-price"><span class="amount">{{ CurrentPrice }}</span></td>
+                        <td class="li-product-name">{{ ProName }}</td>
+                        <td class="li-product-price"><span class="amount">{{format CurrentPrice }}</span></td>
                         <td class="li-product-stock-status">
                             {{#if State}}
                             <span class="out-stock">Đã đấu giá</span>
@@ -39,7 +39,7 @@
                             <span class="in-stock">Đang đấu giá</span>
                             {{/if}}
                         </td>
-                        <td class="li-product-add-cart"><a href="#">đấu giá</a></td>
+                        <td ><a href="#" class="btn btn-primary">Đấu Giá</a></td>
                     </tr>
                     {{/each }}
                 </tbody>

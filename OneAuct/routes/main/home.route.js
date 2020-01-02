@@ -3,8 +3,8 @@ const productModel = require('../../models/product.model');
 const rateModel = require('../../models/user-rate-user.model');
 const userModel = require('../../models/user.model');
 const config = require('../../config/default.json');
+const restrictUser = require('../../middlewares/authUser.mdw');
 const limit = config.paginate.limit;
-
 
 const router = express.Router();
 
@@ -82,7 +82,7 @@ router.get('/search', async (req,res) => {
     });
 });
 
-router.get('/review', async (req,res)=> {
+router.get('/review',restrictUser, async (req,res)=> {
     const [products, goodRate, badRate, user] = await Promise.all([
         productModel.reviewlist(req.query.UserID),
         rateModel.goodReview(req.query.UserID),
@@ -95,6 +95,7 @@ router.get('/review', async (req,res)=> {
     if(checkRate < 0.8){
         check = false;
     }
+
     res.render('main/home/review-detail', {
         products,
         goodRate,

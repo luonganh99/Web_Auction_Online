@@ -4,8 +4,10 @@ const   express = require('express'),
         numeral = require('numeral'),
         hbs_sections = require('express-handlebars-sections'),
         session = require('express-session');
+
         app = express();
 
+const momment = require('moment');
 require('express-async-errors');
 
 //app.use(morgan('dev')); 
@@ -43,6 +45,7 @@ app.engine('hbs', exhbs({
             }
             return maskUser;
         },
+        date: val => momment(val).format('DD-MM-YYYY'),
     },
 
 }));
