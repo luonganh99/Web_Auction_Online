@@ -3,12 +3,30 @@ const   express = require('express'),
         morgan = require('morgan'),
         numeral = require('numeral'),
         hbs_sections = require('express-handlebars-sections'),
-        session = require('express-session');
-
+        session = require('express-session'),
         app = express();
 
-const momment = require('moment');
+const moment = require('moment');
 require('express-async-errors');
+
+moment.updateLocale('en', {
+    relativeTime : {
+        future: "trong %s",
+        past:   "%s ago",
+        s  : 'vài giây',
+        ss : '%d giây',
+        m:  "1 phút",
+        mm: "%d phút",
+        h:  "1 tiếng",
+        hh: "%d giờ",
+        d:  "1 ngày",
+        dd: "%d ngày",
+        M:  "a month",
+        MM: "%d months",
+        y:  "a year",
+        yy: "%d years"
+    }
+});
 
 //app.use(morgan('dev')); 
 app.use(session({
@@ -45,7 +63,22 @@ app.engine('hbs', exhbs({
             }
             return maskUser;
         },
-        date: val => momment(val).format('DD-MM-YYYY'),
+        relative: (val) => {
+           
+             const expiryDate = moment(val);
+             const currentDate = moment();
+             const diffDate = expiryDate.diff(currentDate,'days');
+             console.log(diffDate);
+             
+            if (diffDate < 3 && diffDate >= 0) {
+                return currentDate.to(expiryDate);
+            } else if (diffDate >= 3) {
+                return expiryDate.format("DD-MM-YYYY");
+            }
+            const msg = 'Hết hạn';
+            return msg;
+        },
+        date: (val) => moment(val).format("DD-MM-YYYY")
     },
 
 }));
@@ -67,7 +100,8 @@ app.use((err, req, res, next) => {
 	var errorView = 'error';
 	if (status === 404)
 		errorView = '404';
-	var msg = err.message;
+    var msg = "Hiện tại chức năng này không hoạt động. Xin vui lòng thử lại sau!";
+    console.log(err.stack);
 	var error = err;
 	res.status(status).render(errorView, {
 		layout: false,

@@ -164,17 +164,17 @@ router.get('/:catID/products/:proID', async (req,res) => {
 
 
     //Xu ly cua view 
-    let startDate = moment(product.StartDate);
-    let expiryDate = moment(product.ExpiryDate);
-    const diffDate = expiryDate.diff(startDate,'days');
+    // let startDate = moment(product.StartDate);
+    // let expiryDate = moment(product.ExpiryDate);
+    // const diffDate = expiryDate.diff(startDate,'days');
 
-    product.StartDate = startDate.format("DD-MM-YYYY");
-    if(diffDate < 3) 
-    {
-        product.ExpiryDate = startDate.to(expiryDate);
-    } else {
-        product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
-    }
+    // product.StartDate = startDate.format("DD-MM-YYYY");
+    // if(diffDate < 3) 
+    // {
+    //     product.ExpiryDate = startDate.to(expiryDate);
+    // } else {
+    //     product.ExpiryDate = expiryDate.format("DD-MM-YYYY");
+    // }
     //Kiểm tra trang sản phẩm có phải mình là người đăng đấu giá hay không
     let isOwn = false;
     if(req.session.isAuthenticated){
