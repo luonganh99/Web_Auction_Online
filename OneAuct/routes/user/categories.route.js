@@ -7,6 +7,7 @@ const wishModel = require('../../models/wishlist.model');
 const rateModel = require('../../models/user-rate-user.model');
 const upgradeModel = require('../../models/users-upgrade-sellers.model');
 const restrictSeller = require('../../middlewares/authSeller.mdw');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const config = require('../../config/default.json');
 const multer = require('multer');
@@ -40,7 +41,15 @@ router.get('/edit', async (req,res) => {
 });
 
 router.post('/edit', async (req,res) => {
-    //xử lý edit
+    const date = moment(req.body.Date_of_Birth, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const entity = req.body;
+    entity.DoB = date;
+    delete entity.Date_of_Birth;
+    const condition = {
+        UserID: req.session.authUser.UserID
+    }
+    const results = await userModel.patch(entity,condition);
+    res.redirect('/user/profile');
 });
 
 router.get('/password', (req,res) => {

@@ -16,31 +16,31 @@
                 <div class="name item">
                     <div class="head-item">Họ và Tên</div>
                     <div class="content-item">
-                        <input type="text" value="{{ user.FullName }}">
+                        <input type="text" name="FullName" value="{{ user.FullName }}">
                     </div>
                 </div>
                 <div class="emai item">
                     <div class="head-item">Email</div>
                     <div class="content-item">
-                        <input type="text" value="{{ user.Email }}">
+                        <input type="email" name="Email" value="{{ user.Email }}">
                     </div>
                 </div>
                 <div class="phone item">
                     <div class="head-item">Số Điện Thoại</div>
                     <div class="content-item">
-                        <input type="text" value="{{ user.Phone }}">
+                        <input type="tel" name="Phone" value="{{ user.Phone }}" pattern="[0-9]+" maxlength="10"  oninvalid="setCustomValidity('Số điện thoại phải gồm 10 chữ số')">
                     </div>
                 </div>
                 <div class="item">
                     <div class="head-item">Địa Chỉ</div>
                     <div class="content-item">
-                        <input type="text" value="{{ user.Address }}">
+                        <input type="text" name="Address" value="{{ user.Address }}">
                     </div>
                 </div>
                 <div class="birthdate item">
                     <div class="head-item">Ngày Sinh</div>
                     <div class="content-item">
-                        <input type="text" value="{{ user.DoB }}">
+                        <input type="text" name="Date_of_Birth" value="{{date user.DoB }}">
                     </div>
                 </div>
                 <div class="submit">
