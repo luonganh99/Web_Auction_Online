@@ -21,10 +21,6 @@ moment.updateLocale('en', {
         hh: "%d giờ",
         d:  "1 ngày",
         dd: "%d ngày",
-        M:  "a month",
-        MM: "%d months",
-        y:  "a year",
-        yy: "%d years"
     }
 });
 
@@ -63,22 +59,27 @@ app.engine('hbs', exhbs({
             }
             return maskUser;
         },
-        relative: (val) => {
-           
-             const expiryDate = moment(val);
-             const currentDate = moment();
-             const diffDate = expiryDate.diff(currentDate,'days');
-             console.log(diffDate);
-             
+        relative: val => {
+            const expiryDate = moment(val);
+            const currentDate = moment();
+            const diffDate = expiryDate.diff(currentDate,'days');
             if (diffDate < 3 && diffDate >= 0) {
                 return currentDate.to(expiryDate);
             } else if (diffDate >= 3) {
                 return expiryDate.format("DD-MM-YYYY");
             }
-            const msg = 'Hết hạn';
-            return msg;
+            return 'Hết hạn';
         },
-        date: (val) => moment(val).format("DD-MM-YYYY")
+        date: val => moment(val).format("DD-MM-YYYY"),
+        new: val => {
+            const expiryDate = moment(val);
+            const currentDate = moment();
+            const diffMinute = expiryDate.diff(currentDate,'minutes'); 
+            if (diffMinute <= 30 && diffMinute >= 0) {
+                return '<li class="product_mark product_new" > new  </li>';
+            } 
+            return ''
+        }
     },
 
 }));
