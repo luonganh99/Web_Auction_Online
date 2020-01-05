@@ -39,54 +39,54 @@
 
 
 
-    
-
 <!-- Auction -->  
 <div class="userpage-content col-9">
     <div class="title breadcrumb justify-content-center">Đăng đấu giá</div>
     <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12 mb-5">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" action="post" enctype="multipart/form-data">
             <div class="form">
                 <div class="row">
                     <div class="col-md-12 col-12 mb-3">
                         <label>Tên sản phẩm</label>
-                        <input class="mb-0" type="text" name="ProName" placeholder="MacBook Air 13">
+                        <input class="mb-0" type="text" name="ProName" placeholder="MacBook Air 13" required>
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Danh mục</label>
-                        <select id="inputState" class="form-control" name="CatName">
+                        <select id="inputState" class="form-control" name="CatID" required>
                             <option selected>Tất cả danh mục</option>
                             {{#each lcCategories}}
-                                <option value="{{CatName}}" >{{CatName}}</option>
+                                {{#each SubCategories}}
+                                <option value="{{CatID}}" >{{CatName}}</option>
+                                {{/each}}
                             {{/each}}
                         </select>
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Thông tin giới thiệu</label>
-                        <input class="mb-0" name="TinyInfo" type="text" placeholder="">
+                        <input class="mb-0" name="TinyInfo" type="text" placeholder="" required>
                     </div>
                    
                     <div class="col-md-12 col-12 mb-3">
                         <label>Mô tả chi tiết</label>
                         <textarea id="txtFullInfo" class="mb-0" name="FullInfo" placeholder=""></textarea>
                     </div>
-                    <div class="col-md-12 col-12 mb-3">
-                        <label>Chọn ảnh </label>
-                        <input class="mb-0" id="imgProduct" name="Images" type="file" multiple accept="image/*">
-                    </div>
+                   
                     <div class="col-md-12 col-12 mb-3">
                         <label>Giá khởi điểm</label>
-                        <input class="mb-0" type="number" name="StartPrice" placeholder="vnđ">
+                        <input class="mb-0" type="number" oninvalid="setCustomValidity('Vui lòng nhập số')" name="StartPrice" placeholder="vnđ" required>
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Bước giá</label>
-                        <input class="mb-0" type="number" name="PriceStep" placeholder="vnđ">
+                        <input class="mb-0" type="number"  oninvalid="setCustomValidity('Vui lòng nhập số')" name="PriceStep" placeholder="vnđ" required>
                     </div>
                     <div class="col-md-12 col-12 mb-3">
                         <label>Giá mua ngay</label>
-                        <input class="mb-0" type="number" name="PurchasePrice" placeholder="vnđ">
+                        <input class="mb-0" type="text" type="number"  oninvalid="setCustomValidity('Vui lòng nhập số')" name="PurchasePrice" placeholder="vnđ">
                     </div>
-
+                    <div class="col-md-12 col-12 mb-3">
+                        <label>Chọn ảnh </label>
+                        <input class="mb-0" id="imgProduct" name="Images" type="file" multiple accept="image/jpeg">
+                    </div>
                     <div class="check-box d-inline-block col-md-12 col-12 mb-3">
                         <input type="checkbox" id="remember_me" name="Raw_AutoRenew">
                         <label for="remember_me">Tự động gia hạn</label>

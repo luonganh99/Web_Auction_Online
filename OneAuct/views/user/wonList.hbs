@@ -1,40 +1,38 @@
 {{#section 'title'}}
-    <title>Won List</title>
+<title>Won List</title>
 {{/section}}
 
 {{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/styles/account.css">
-    <link rel="stylesheet" type="text/css" href="/styles/auctionlist.css">
+<link rel="stylesheet" type="text/css" href="/styles/account.css">
+<link rel="stylesheet" type="text/css" href="/styles/auctionlist.css">
 {{/section}}
 
 {{!-- Won List --}}
 
 <div class="userpage-content col-9">
-    <div class="title breadcrumb justify-content-center">Sản phẩm đã đã thắng</div>
+    <div class="title breadcrumb justify-content-center">Sản phẩm đã thắng</div>
     <div class="row mt-4">
 
         {{#each products}}
         <div class="card ml-3 mr-3 mb-4">
-            <div class="card-header d-flex flex-row justify-content-between">
-                <div class="name">{{ SellerID }}</div>
-                <div class="state ml-3"></div>
+            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                <div class="name">{{ ProName }}</div>
+                <div class="state ml-3">Đấu giá kết thúc: {{date ExpiryDate }}</div>
             </div>
             <div class="card-body">
                 <div class="infor d-flex flex-row justify-content-between mb-4">
-                    <img class="mr-2" style="width: 200px; height: 200px;" src="/images/product/{{ProID}}/main_thumbs.jpg" alt="">
+                    <img class="mr-2" style="width: 200px; height: 200px;"
+                        src="/images/product/{{ProID}}/0.jpg" alt="">
                     <div class="text">{{ TinyInfo }}</div>
                     <div class="bottom">
-                        <div class="yourbid">Giá bạn đặt: <span class="text-right">{{ Price }}</span></div>
-                        <div class="current">Giá hiện tại: <span class="text-right">{{ CurrentPrice }}</span>
-                        </div>
-                        <div class="time text-center">Còn 2 ngày</div>
-                        <div class="view-auction">
-                            <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="submit-button">Xem chi tiết</button></a>
+                        <div class="current">Giá đã mua: <span class="text-right">{{format CurrentPrice }}</span></div>
+                        <div class="view-auction mt-5">
+                            <a href="rate?ProID={{ProID}}&ProName={{ProName}}&UserID={{BidderID}}&Username={{BidderName}}" class="mr-3"><button class="btn btn-success"> Đánh giá</button></a>
+                            <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="btn btn-primary">Xem chi tiết</button></a>
                         </div>
                     </div>
 
                 </div>
-            </div>
         </div>
         {{/each}}
 

@@ -1995,6 +1995,7 @@ select option
 .product_discount
 {
 	display: none;
+	width: fit-content;
 	background: #df3b3b;
 	visibility: hidden;
 	opacity: 0;

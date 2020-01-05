@@ -1,0 +1,59 @@
+{{#section 'title'}}
+    <title>Rate</title>
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/styles/account.css">
+    <link rel="stylesheet" type="text/css" href="/styles/auctionlist.css">
+{{/section}}
+
+
+<div class="userpage-content col-9">
+    <div class="title breadcrumb justify-content-center">Đánh giá</div>
+    <div class="row mt-5">
+        <div class="info_form col-8">
+            <form  method="POST">
+            <div class="name item">
+                <div class="head-item">Tên</div>
+                <div class="content-item">
+                    <div class="mr-3">{{mask product.Username}}</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="head-item">Đánh giá</div>
+                <div class="content-item row">
+                    <div class="col-6 ">
+                        <i class="far fa-thumbs-up ml-5 mr-3"></i>
+                        <input type="radio" name="Grade" value="true" style="width: auto;">
+                    </div>
+                    <div class="col-6">
+                        <i class="far fa-thumbs-down  mr-3"></i>
+                        <input type="radio" name="Grade" value="false" style="width: auto;">
+                    </div>
+                </div>
+            </div>
+            <div class=" item">
+                <div class="head-item">Nhận xét</div>
+                <div class="content-item">
+                   <textarea name="Message"  type="text" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+            <input type="hidden" name="Rated_Username" value="{{product.Username}}">
+            <input type="hidden" name="Rated_UserID" value="{{product.UserID}}">
+            <input type="hidden" name="ProID" value="{{product.ProID}}">
+            <div class="submit">
+                <button type="submit" class="btn btn-primary">Đánh giá</button>
+            </div>
+            </form>
+          
+        </div>
+        <div class="col-4">
+            <div class="d-flex flex-column align-items-center">
+                <div class="mb-3">
+                    <img src="/images/best_1.png" alt="">
+                </div>
+                <div class="font-weight-bold"> {{product.ProName}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -54,7 +54,7 @@ router.post('/register', async (req,res) => {
         delete entity.Lastname;
         delete entity['g-recaptcha-response'];
         const result = await userModel.add(entity);
-        return res.render('main/account/login');
+        return res.redirect('/account/login');
      }
      else {
         return res.render('main/account/register', {
@@ -101,9 +101,9 @@ router.post('/login', async (req,res) => {
         return res.redirect('/admin/categories');
     }
     let url = req.query.retUrl || '/';
-    if(url.includes('/wishlist') === true) {
-        url = url.replace('/wishlist','');
-    }
+    // if(url.includes('/wishlist') === true) {
+    //     url = url.replace('/wishlist','');
+    // }
     
 
     res.redirect(url);

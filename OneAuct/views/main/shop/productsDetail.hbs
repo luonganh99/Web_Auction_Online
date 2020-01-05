@@ -26,6 +26,54 @@
   });
 </script>
 
+<script>
+function priceConfirm() {
+	const price = document.getElementById("Price").value;
+	if(price == '') {
+		alert('Vui lòng nhập số tiền đặt'); 
+		return false;
+	}
+	if(price >= {{priceSuggest}}){
+		if(price % {{product.PriceStep}} === 0) 
+		{
+			if(confirm('Bạn có muốn đặt ' + price + ' vnđ cho sản phẩm này không?' )) 
+				return true;
+		}
+		else 
+			alert('Vui lòng nhập số tiền tương ứng với bước giá bội');
+	}
+	else 
+	{
+		alert('Vui lòng nhập số tiền lớn hơn hoặc bằng số tiền đề nghị');
+	}
+
+	return false;
+}
+
+function maxConfirm() {
+	const max = document.getElementById("MaxPrice").value;
+	if(max == '') {
+		alert('Vui lòng nhập số tiền đặt tối đa'); 
+		return false;
+	}
+	if(max >= {{priceSuggest}}){
+		if(max % {{product.PriceStep}} === 0) 
+		{
+			if(confirm('Bạn có muốn đặt tối đa ' + max + ' vnđ cho sản phẩm này không?' )) 
+				return true;
+		}
+		else 
+			alert('Vui lòng nhập số tiền tối đa tương ứng với bước giá bội');
+	}
+	else 
+	{
+		alert('Vui lòng nhập số tiền tối đa lớn hơn hoặc bằng số tiền đề nghị');
+	}
+
+	return false;
+}
+</script>
+
 {{/section}}
 
 
@@ -40,25 +88,23 @@
 			<!-- Images -->
 			<div class="col-lg-2 order-lg-1 order-2">
 				<ul class="image_list">
-					<li data-image="/images/product/{{product.ProID}}/single_1.jpg"><img
-							src="/images/product/{{product.ProID}}/single_1.jpg" alt=""></li>
-					<li data-image="/images/product/{{product.ProID}}/single_2.jpg"><img
-							src="/images/product/{{product.ProID}}/single_2.jpg" alt=""></li>
-					<li data-image="/images/product/{{product.ProID}}/single_3.jpg"><img
-							src="/images/product/{{product.ProID}}/single_3.jpg" alt=""></li>
+					<li data-image="/images/product/{{product.ProID}}/0.jpg"><img
+							src="/images/product/{{product.ProID}}/0.jpg" alt=""></li>
+					<li data-image="/images/product/{{product.ProID}}/1.jpg"><img
+							src="/images/product/{{product.ProID}}/1.jpg" alt=""></li>
+					<li data-image="/images/product/{{product.ProID}}/2.jpg"><img
+							src="/images/product/{{product.ProID}}/2.jpg" alt=""></li>
 				</ul>
 			</div>
 
 			<!-- Selected Image -->
 			<div class="col-lg-5 order-lg-2 order-1">
-				<div class="image_selected"><img src="/images/product/{{product.ProID}}/single_1.jpg" alt=""></div>
+				<div class="image_selected"><img src="/images/product/{{product.ProID}}/3.jpg" alt=""></div>
 			</div>
-
-
 
 			<!-- Description -->
 			<div class="col-lg-5 order-3">
-				<div class="product_description">
+				<div class="product_description mb-2">
 					{{#if err_message}}
 					<div class="alert alert-warning alert-dismissible fade show" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -67,6 +113,7 @@
 					{{err_message}}
 					</div>
 					{{/if}}
+
 					<div class="current_bid mb-2 mt-2">
 						<div class="title">Giá hiện tại </div>
 						<div class="product_price">{{ format product.CurrentPrice }}</div>
@@ -74,29 +121,29 @@
 
 					<div class="time_remain">
 						<div class="time_text">Đấu giá bắt đầu</div>
-						<div class="time">{{ product.StartDate }}</div>
+						<div class="time">{{date product.StartDate }}</div>
 					</div>
 
 					<div class="time_remain">
 						<div class="time_text">Đấu giá kết thúc</div>
-						<div class="time">{{ product.ExpiryDate }}</div>
+						<div class="time">{{relative product.ExpiryDate }}</div>
 					</div>
 
 					<div class="product_text">
 						<div class="d-flex flex-row justify-content-between">
 							<div class="title">Người bán:</div>
 							<div class="content">
-								{{mask seller.Username }} - <i class="far fa-laugh-beam"></i>
+								{{mask seller.Username }} - Điểm: {{seller.RateNumber}} 
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
 							<div class="title">Người giữ giá:</div>
 							<div class="content">
-								{{mask bidder.Username }} - <i class="far fa-frown-open"></i>
+								{{#if product.BidderID}}  {{mask product.BidderName}} - Điểm:  {{bidder.RateNumber}} {{else}} Chưa có  {{/if}} 
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
-							<div class="title">Giới thiệu sản phẩm:</div>
+							<div class="title" style="width: 350px;">Giới thiệu sản phẩm:</div>
 							<div class="content">
 								{{ product.TinyInfo }}
 							</div>
@@ -105,7 +152,7 @@
 
 						{{#if isOwn}} {{else}}
 						<form method="POST">
-							<div class="d-flex flex-row justify-content-between">
+							<div class="d-flex flex-row justify-content-between align-items-center">
 								<div class="title">Thêm vào danh sách yêu thích</div>
 								<div class="product_fav content">
 									<button class="btn" type="submit"
@@ -116,30 +163,46 @@
 						</form>
 						{{/if}}
 					</div>
-					{{#if isOwn}}
-					{{else}}
-					{{#if isBid}} {{!-- Kiểm tra xem có đc phép đấu giá hay khônv  --}}
-					<div class="bid_btn">
-						<form method="POST">
-							<input type="number" name="Price">
-							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
-								type="submit">Đấu giá trực tiếp</button>
-						</form>
-						<form method="POST">
-							<input type="number" name="Price">
-							<button class="btn btn-outline-primary"
-								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct"
-								type="submit">Đấu
-								giá tự động</button>
-						</form>
 
-					</div>
+
+					{{#if isOwn}}
+
 					{{else}}
-					<div class="bid_btn">
-						<a href="/shop/{{product.CatID}}/products/{{product.ProID}}/check" class="btn btn-outline-primary">Bắt đấu đấu giá<a>
-					</div>
-					{{/if}}
+						{{#if isValid}}
+							{{#if isBid}} {{!-- Kiểm tra xem có đc phép đấu giá hay không  --}}
+								<div class="bid_btn mt-4">
+									<hr style="border: 0.5px rgb(178, 178, 221) solid; margin: 0px;">
+									<div class="mb-3 mt-2 text-center">
+									<div class="title">Đấu giá trực tiếp:</div>
+									<div class="mb-1 mt-1">Giá đề nghị: <span id="Suggest" style="font-weight: bold; color: red">{{format priceSuggest}}</span> </div>
+							<div class="">Bước giá bội: <span  style="font-weight: bold; color: red">{{format product.PriceStep}}</span> </div>
+							<form class="mt-2" method="POST" action="/shop/{{product.CatID}}/products/{{product.ProID}}/check/direct" onsubmit="return priceConfirm()">
+								<input type="number" id="Price" max="99999999999" name="Price" style="height: 34px; width: 50%" >
+								<button class="btn btn-primary ml-2 "  type="submit">Đặt</button>
+							</form>
+						</div>
+						
+						
+						<div class="text-center mt-3">
+							<div class="title">Đấu giá tự động:</div>
+							<div class="mb-1 mt-1">Nhập giá <span id="" style="font-weight: bold; color: red">tối đa</span> </div>
+							<form method="POST" onsubmit="return maxConfirm()">
+								<input type="number" id="MaxPrice"  max="99999999999" name="MaxPrice" style="height: 34px; width: 50%" >
+
+							<button class="btn btn-primary ml-2"
+								formaction="/shop/{{product.CatID}}/products/{{product.ProID}}/check/auto"
+								type="submit">Đặt</button>
+							</form>
+						</div>
+						
+
+								</div>
+							{{else}}
+								<div class="bid_btn mt-5 row justify-content-center">
+									<a href="/shop/{{product.CatID}}/products/{{product.ProID}}/check" class="btn btn-primary"> <i class="fas fa-gavel"></i> Đấu giá</a>
+								</div>
+							{{/if}}
+						{{/if}}
 					{{/if}}
 
 				</div>
@@ -163,7 +226,7 @@
 						<li><a data-toggle="tab" href="#product-details"><span>Lượt ra giá</span></a></li>
 						{{else}}
 						<li><a data-toggle="tab" href="#product-details"><span>Lịch sử đấu giá</span></a></li>
-						<li><a data-toggle="tab" href="#product-rates"><span>Đánh giá của người bán</span></a></li>
+						<li><a data-toggle="tab" href="#product-rates"><span>Người bán</span></a></li>
 						{{/if}}
 						
 					</ul>
@@ -198,6 +261,7 @@
 									<th scope="col">Người đặt</th>
 									<th scope="col">Giá</th>
 									<th scope="col">Thời gian</th>
+									<th scope="col">Đánh giá</th>
 									<th scope="col">Từ Chối</th>
 								</tr>
 							</thead>
@@ -209,6 +273,7 @@
 									<td>{{ Username }}</td>
 									<td>{{ Price }}</td>
 									<td>{{ BidTime }}</td>
+									<td><a href="/review?UserID={{UserID}}">{{RateNumber}}</a></td>
 									<td>{{#if State}} Đã bị chặn {{else}}<button class="btn btn-secondary" type="submit" formaction="/shop/{{../product.CatID}}/products/{{../product.ProID}}/ban/{{UserID}}"><i class="fas fa-user-slash"></i></button>{{/if}}</td>
 								</tr>
 								</form>
@@ -228,15 +293,12 @@
 							{{#each bidbyPro}}
 							<tr>
 								<th scope="row">{{ Index }}</th>
-								<td> {{ BidTime }} </td>
+								<td> {{ dateDetail BidTime }} </td>
 								<td> {{	mask Username }} </td>
-								<td> {{ Price }} </td>
+								<td> {{ format Price }} </td>
 							</tr>
 							{{/each}}
 						</table>
-						<a href="#" title="quick view" class="quick-view-btn" data-toggle="modal"
-							data-target="#exampleModalCenter">Xem
-							thêm</a>
 					</div>
 					{{/if}}
 				</div>
@@ -244,7 +306,7 @@
 			<div id="product-rates" class="tab-pane" role="tabpanel">
 				 <div class="card ml-3 mr-3 mb-4">
                 <div class="card-header d-flex flex-row">
-                    <div class="name">{{mask seller.Username}}</div>
+                    <div class="name">{{mask seller.Username}}  <i class="fas fa-grip-lines-vertical"></i> Điểm: {{seller.RateNumber}} </div>
                 </div>
                 <div class="card-body">
                     <div class="infor d-flex flex-row mb-4">
@@ -386,7 +448,7 @@
 </div>
 
 
-<!-- Preview -->
+{{!-- <!-- Preview -->
 <div class="modal fade modal-wrapper" id="exampleModalCenter">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
@@ -419,3 +481,5 @@
 	</div>
 
 </div>
+ --}}
+

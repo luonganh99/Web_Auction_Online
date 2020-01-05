@@ -39,11 +39,11 @@
             <div class="birthdate item">
                 <div class="head-item">Ngày Sinh</div>
                 <div class="content-item">
-                    <div class="mr-3">{{ user.DoB }}</div>
+                    <div class="mr-3">{{date user.DoB }}</div>
                 </div>
             </div>
             <div class="submit">
-                <a href="edit"><button class="submit-button mt-0">Chỉnh Sửa</button></a>
+                <a href="edit" class="btn btn-primary">Chỉnh Sửa</a>
             </div>
         </div>
         <div class="avatar_change col-4">
@@ -52,7 +52,7 @@
                     <img src="/images/best_1.png" alt="">
                 </div>
                 <input class="mb-3" type="file" content="">
-                <div>luonganh99</div>
+                <div>{{authUser.Username}}</div>
             </div>
         </div>
     </div>

@@ -3,22 +3,27 @@ const productModel = require('../../models/product.model');
 const bidModel = require('../../models/user-bid-product.model');
 const userModel = require('../../models/user.model');
 const categoryModel = require('../../models/category.model');
+const wishModel = require('../../models/wishlist.model');
 const rateModel = require('../../models/user-rate-user.model');
 const upgradeModel = require('../../models/users-upgrade-sellers.model');
 const restrictSeller = require('../../middlewares/authSeller.mdw');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const config = require('../../config/default.json');
 const multer = require('multer');
+const fs = require('fs');
 const N = config.hash.N;
-// const storage = multer.diskStorage({
-//     filename: function(req,file,cb){
-//         cb(null, file.originalname);
-//     },
-//     destination: function(req,file,cb){
-//         cb(null, `./public/images/product`);
-//     }
-// })
-// const upload = multer({storage});
+
+const storage = multer.diskStorage({
+    filename: function(req,file,cb){
+        cb(null, file.originalname);
+    },
+    destination: function(req,file,cb){
+        cb(null, `./public/images/product/upload`);
+    },
+});
+const upload = multer({storage});
+
 const router = express.Router();
 
 
@@ -39,7 +44,15 @@ router.get('/edit', async (req,res) => {
 });
 
 router.post('/edit', async (req,res) => {
-    //xử lý edit
+    const date = moment(req.body.Date_of_Birth, 'DD-MM-YYYY').format('YYYY-MM-DD');
+    const entity = req.body;
+    entity.DoB = date;
+    delete entity.Date_of_Birth;
+    const condition = {
+        UserID: req.session.authUser.UserID
+    }
+    const results = await userModel.patch(entity,condition);
+    res.redirect('/user/profile');
 });
 
 router.get('/password', (req,res) => {
@@ -83,25 +96,31 @@ router.get('/post', restrictSeller,  (req,res) => {
     });
 });
 
-const storage = multer.diskStorage({
-    filename: function(req,file,cb){
-        cb(null, file.originalname);
-    },
-    destination: function(req,file,cb){
-        cb(null, `./public/images/product`);
-    },
-});
-const upload = multer({storage});
 
-router.post('/post', restrictSeller, (req,res) => {
-    upload.array('Images')(req, res, err => {
-        if (err) {
 
+router.post('/post', restrictSeller, upload.array('Images', 7), async (req,res) => {
+    const entity = req.body;
+    entity.SellerID = req.session.authUser.UserID;
+    entity.SellerName = req.session.authUser.Username;
+    entity.CurrentPrice = entity.StartPrice;
+    entity.StartDate = moment().format('YYYY-MM-DD HH:mm:ss'),
+    entity.ExpiryDate = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss');
+    const results = await productModel.add(entity);
+    const proID = await productModel.singlebyName(entity.ProName);
+    const uploadPath = './public/images/product/upload';
+    const proPath = `./public/images/product/${proID}`;
+    fs.rename(uploadPath,proPath, () => {
+        let i = 0;
+        fs.readdirSync(proPath).forEach(file => {
+            const extension = file.split('.').pop();
+            fs.renameSync(proPath + '/' + file,  proPath + '/' + i + '.' + extension);
+            i++;
+        });
+        if (!fs.existsSync(uploadPath)){
+            fs.mkdirSync(uploadPath);
         }
-        console.log(req.body);
-    })
-   console.log(req.body); 
-   res.send('done');
+        return res.redirect('/user/auctionlist');
+    });
 });
 
 router.get('/joininglist', async(req,res) => {
@@ -192,4 +211,46 @@ router.get('/successlist', async (req,res) => {
     });
 })
 
+router.get('/rate', (req,res) => {
+    res.render('user/rate', {
+        layout: 'user',
+        product: req.query
+    })
+})
+
+router.post('/rate', async (req,res) => {
+
+    const entity = {
+        UserID: req.session.authUser.UserID,
+        Username: req.session.authUser.Username,
+        Rated_UserID: req.body.Rated_UserID,
+        Rated_Username: req.body.Rated_Username,
+        ProID: +req.body.ProID,
+        Message: req.body.Message,
+    }
+
+    if( req.body.Grade === 'true')
+        entity.Grade = true;
+    else 
+        entity.Grade = false;
+
+    const results = await rateModel.add(entity);
+     //Thêm điểm vào bảng người dùng
+    const [goodRate,badRate] = await Promise.all([
+        rateModel.goodReview(userID), 
+        rateModel.badReview(userID)
+    ]);
+
+    const rateNumber = goodRate / (goodRate + badRate) * 100;
+    const updateUser = await userModel.patch('users', {RateNumber: rateNumber}, {UserID: req.body.Rated_UserID});
+    res.redirect('/user/profile');
+})
+
+router.get('/delete', async (req,res) => {
+    console.log(req.query.ProID);
+    const results = await wishModel.del_2(req.query.ProID, req.session.authUser.UserID);
+    res.redirect('/user/wishlist');
+})
+
 module.exports = router;
+
