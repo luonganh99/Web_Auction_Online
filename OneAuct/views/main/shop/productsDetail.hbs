@@ -133,13 +133,13 @@ function maxConfirm() {
 						<div class="d-flex flex-row justify-content-between">
 							<div class="title">Người bán:</div>
 							<div class="content">
-								{{mask seller.Username }} - Điểm: {{seller.RateNumber}} 
+								{{mask seller.Username }} - Điểm: <a href="/review?UserID={{seller.UserID}}">{{seller.RateNumber}} </a> 
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
 							<div class="title">Người giữ giá:</div>
 							<div class="content">
-								{{#if product.BidderID}}  {{mask product.BidderName}} - Điểm:  {{bidder.RateNumber}} {{else}} Chưa có  {{/if}} 
+								{{#if product.BidderID}}  {{mask product.BidderName}} - Điểm: <a href="/review?UserID={{bidder.UserID}}">{{bidder.RateNumber}}</a>  {{else}} Chưa có  {{/if}} 
 							</div>
 						</div>
 						<div class="d-flex flex-row justify-content-between">
@@ -261,8 +261,8 @@ function maxConfirm() {
 									<th scope="col">Người đặt</th>
 									<th scope="col">Giá</th>
 									<th scope="col">Thời gian</th>
-									<th scope="col">Đánh giá</th>
-									<th scope="col">Từ Chối</th>
+									<th scope="col">Điểm đánh giá</th>
+									<th scope="col">Từ chối</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -270,9 +270,9 @@ function maxConfirm() {
 								<form method="POST">
 								<tr>
 									<th scope="row">{{ Index }}</th>
-									<td>{{ Username }}</td>
-									<td>{{ Price }}</td>
-									<td>{{ BidTime }}</td>
+									<td>{{mask Username }}</td>
+									<td>{{format Price }}</td>
+									<td>{{dateDetail BidTime }}</td>
 									<td><a href="/review?UserID={{UserID}}">{{RateNumber}}</a></td>
 									<td>{{#if State}} Đã bị chặn {{else}}<button class="btn btn-secondary" type="submit" formaction="/shop/{{../product.CatID}}/products/{{../product.ProID}}/ban/{{UserID}}"><i class="fas fa-user-slash"></i></button>{{/if}}</td>
 								</tr>

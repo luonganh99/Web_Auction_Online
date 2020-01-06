@@ -119,11 +119,11 @@
                         <div class="product_item is_new col-sm-4">
                             <div class="product_border"></div>
                             <div class="product_image d-flex flex-column align-items-center justify-content-center"><img
-                                    src="/images/product/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}" style="width: 150px; height:170px;"></div>
+                                    src="/images/product/{{ProID}}/0.jpg" alt="{{ProName}}" style="width: 150px; height:170px;"></div>
                             <div class="product_content">
-                                <div class="product_price">{{format CurrentPrice}}</div>
+                                <div class="product_price" style="font-weight: bold; font-size: 18px;color:red;">{{format CurrentPrice}}</div>
                                 <div class="product_name">
-                                    <div><a href="#" tabindex="0">{{ProName}}</a></div>
+                                    <div><a href="#" tabindex="0" style="font-size: 15px; font-weight: bold;">{{ProName}}</a></div>
                                 </div>
                                 <div class="product_name">Người giữ giá: {{#if BidderID}}  {{mask BidderName}} {{else}} Chưa có  {{/if}}</div>
                                 <div class="product_name">Thời gian kết thúc: {{relative ExpiryDate}}</div>
@@ -134,7 +134,11 @@
                                     <button class="product_cart_button btn btn-outline-danger col-5 ml-2" type="submit" formaction="/shop/{{CatID}}/products/{{ProID}}/wishlist">Yêu Thích</button>                             
                                 </div>
                                </form>
+                               
                             </div>
+                            <ul class="product_marks">
+								{{{new StartDate}}}
+							</ul>
                         </div>
                         {{/each}}
 

@@ -9,21 +9,21 @@
 
 
 {{!-- Joining List --}}
-
 <div class="userpage-content col-9">
     <div class="title breadcrumb justify-content-center">Sản phẩm đang tham gia đấu giá</div>
     <div class="row mt-4">
 
         {{#each products}}
+        
         <div class="card ml-3 mr-3 mb-4">
             <div class="card-header d-flex flex-row justify-content-between">
-                <div class="name">{{ ProName }}</div>
+                <div class="name">{{ ProName }}  {{#if isOwn}} <i class="fas fa-grip-lines-vertical"></i> <span style=" color: rgb(38, 0, 255);">Đang giữ giá</span>  {{/if}}</div>
                 <div class="state ml-3"> Đấu giá kết thúc: {{relative ExpiryDate }}</div>
             </div>
             <div class="card-body">
                 <div class="infor d-flex flex-row  justify-content-between mb-4 mt-3">
                     <img class="mr-2" style="width: 200px; height: 200px;" src="/images/product/{{ProID}}/0.jpg" alt="">
-                    <div class="text mr-3">{{ TinyInfo }}</div>
+                    <div class="text mr-4">{{ TinyInfo }}</div>
                     <div class="bottom">
                         <div class="yourbid">Giá bạn đặt: <span class="text-right">{{format Price }}</span></div>
                         <div class="current">Giá hiện tại: <span class="text-right">{{format CurrentPrice }}</span>
@@ -36,6 +36,8 @@
                 </div>
             </div>
         </div>
+        
+        
         {{/each}}
 
     </div>

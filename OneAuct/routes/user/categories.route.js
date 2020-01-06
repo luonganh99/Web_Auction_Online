@@ -96,8 +96,6 @@ router.get('/post', restrictSeller,  (req,res) => {
     });
 });
 
-
-
 router.post('/post', restrictSeller, upload.array('Images', 7), async (req,res) => {
     const entity = req.body;
     entity.SellerID = req.session.authUser.UserID;
@@ -125,9 +123,16 @@ router.post('/post', restrictSeller, upload.array('Images', 7), async (req,res) 
 
 router.get('/joininglist', async(req,res) => {
     const products = await productModel.joininglist(req.session.authUser.UserID);
+    for(c of products) {
+        if(c.BidderID === req.session.authUser.UserID){
+            c.isOwn = true;
+            
+        }
+    }
+    console.log(products);
     res.render('user/joiningList', {
         layout: 'user',
-        products
+        products,
     });
 });
 
@@ -161,10 +166,11 @@ router.get('/review', async (req,res) => {
         rateModel.goodReview(req.session.authUser.UserID),
         rateModel.badReview(req.session.authUser.UserID)
     ]);
+
     //Tính phần trăm điểm đánh giá
-    const checkRate = goodRate / (goodRate + badRate);
+    const checkRate = goodRate / (goodRate + badRate) * 100;
     let check = true;
-    if(checkRate < 0.8){
+    if(checkRate < 80){
         check = false;
     }
     res.render('user/review', {
@@ -172,7 +178,8 @@ router.get('/review', async (req,res) => {
         products,
         goodRate,
         badRate,
-        check
+        check,
+        checkRate
     });
 });
 
@@ -235,14 +242,20 @@ router.post('/rate', async (req,res) => {
         entity.Grade = false;
 
     const results = await rateModel.add(entity);
-     //Thêm điểm vào bảng người dùng
+    //Thêm điểm vào bảng người dùng
     const [goodRate,badRate] = await Promise.all([
-        rateModel.goodReview(userID), 
-        rateModel.badReview(userID)
+        rateModel.goodReview(req.body.Rated_UserID), 
+        rateModel.badReview(req.body.Rated_UserID)
     ]);
 
     const rateNumber = goodRate / (goodRate + badRate) * 100;
-    const updateUser = await userModel.patch('users', {RateNumber: rateNumber}, {UserID: req.body.Rated_UserID});
+    const entity_user = {
+        RateNumber: rateNumber,
+    }
+    const condition_user = {
+        UserID: req.body.Rated_UserID,
+    }
+    const updateUser = await userModel.patch(entity_user, condition_user);
     res.redirect('/user/profile');
 })
 

@@ -23,16 +23,16 @@
                 <div class="infor d-flex flex-row justify-content-between mb-4">
                     <img class="mr-2" style="width: 200px; height: 200px;"
                         src="/images/product/{{ProID}}/0.jpg" alt="">
-                    <div class="text">{{ TinyInfo }}</div>
+                    <div class="text mr-3">{{ TinyInfo }}</div>
                     <div class="bottom">
                         <div class="current">Giá đã mua: <span class="text-right">{{format CurrentPrice }}</span></div>
                         <div class="view-auction mt-5">
-                            <a href="rate?ProID={{ProID}}&ProName={{ProName}}&UserID={{BidderID}}&Username={{BidderName}}" class="mr-3"><button class="btn btn-success"> Đánh giá</button></a>
+                            <a href="rate?ProID={{ProID}}&ProName={{ProName}}&Rated_UserID={{SellerID}}&Rated_Username={{SellerName}}" class="mr-3"><button class="btn btn-success"> Đánh giá</button></a>
                             <a href="/shop/{{CatID}}/products/{{ProID}}"><button class="btn btn-primary">Xem chi tiết</button></a>
                         </div>
                     </div>
-
                 </div>
+            </div>
         </div>
         {{/each}}
 

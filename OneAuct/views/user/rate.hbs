@@ -16,7 +16,7 @@
             <div class="name item">
                 <div class="head-item">Tên</div>
                 <div class="content-item">
-                    <div class="mr-3">{{mask product.Username}}</div>
+                    <div class="mr-3">{{mask product.Rated_Username}}</div>
                 </div>
             </div>
             <div class="item">
@@ -38,8 +38,8 @@
                    <textarea name="Message"  type="text" rows="4" cols="50"></textarea>
                 </div>
             </div>
-            <input type="hidden" name="Rated_Username" value="{{product.Username}}">
-            <input type="hidden" name="Rated_UserID" value="{{product.UserID}}">
+            <input type="hidden" name="Rated_Username" value="{{product.Rated_Username}}">
+            <input type="hidden" name="Rated_UserID" value="{{product.Rated_UserID}}">
             <input type="hidden" name="ProID" value="{{product.ProID}}">
             <div class="submit">
                 <button type="submit" class="btn btn-primary">Đánh giá</button>

@@ -38,7 +38,7 @@ module.exports = {
         return rows[0].numProducts;
     },
     wishlist:  (userID) => db.load(`select p.ProID, p.ProName, p.CurrentPrice, p.State, p.CatID from (select * from wishlist where UserID = ${userID}) w join products p on w.ProID = p.ProID `),
-    joininglist: (userID) => db.load(`select * from (select ProID, Price from users_bid_products where UserID = ${userID} and State = 0 order by BidID desc limit 1) b , products p where b.ProID = p.ProID and ExpiryDate > now()`),
+    joininglist: (userID) => db.load(`select  ub1.ProID, ub1.Price,  p.ProName, p.CurrentPrice, p.TinyInfo, p.ProID, p.ExpiryDate,p.CatID, p.BidderID  from users_bid_products ub1, products p  where ub1.UserID = ${userID}  and ub1.State = 0 and p.ProID = ub1.ProID and p.ExpiryDate > now() group by  ub1.ProID,ub1.Price,  p.ProName, p.CurrentPrice, p.TinyInfo, p.ProID, p.ExpiryDate, p.BidderID having ub1.Price = (select Max(ub2.Price) from users_bid_products ub2 where ub2.ProID = ub1.ProID)`),
     joinedlist: (userID) => db.load(`select * from (select ProID, Price from users_bid_products where UserID = ${userID} and State = 0 order by BidID desc limit 1) b , products p where b.ProID = p.ProID and ExpiryDate < now()`),
     // wonlist: (userID) => db.load(`select uSeller.FullName, p.ProID, p.ProName, p.TinyInfo, p.ExpiryDate, p.CurrentPrice FROM (select ProID, Price from users_bid_products where UserID =  ${userID}  and State = 0 order by BidID desc limit 1) b , products p, users uSeller, users uBidder  where b.ProID = p.ProID and p.SellerID = uSeller.UserID and uBidder.UserID = p.BidderID and p.State = 1 and uBidder.UserID =  ${userID}`),
     wonlist: (userID) => db.load(`select * from products  where  ExpiryDate < now() and BidderID = ${userID}`),

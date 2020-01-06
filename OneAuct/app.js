@@ -7,7 +7,7 @@ const   express = require('express'),
         app = express();
 
 const moment = require('moment');
-const checkEnd = require('./utils/check');
+//const checkEnd = require('./utils/check');
 
 require('express-async-errors');
 
@@ -26,7 +26,7 @@ moment.updateLocale('en', {
     }
 });
 
-checkEnd.start();
+//checkEnd.start();
 
 //job.start();
 
@@ -71,9 +71,9 @@ app.engine('hbs', exhbs({
             const expiryDate = moment(val);
             const currentDate = moment();
             const diffDate = expiryDate.diff(currentDate,'days');
-            if (diffDate < 3 && diffDate > 0) {
+            if (diffDate <= 3 && diffDate >= 0) {
                 return currentDate.to(expiryDate);
-            } else if (diffDate >= 3) {
+            } else if (diffDate > 3) {
                 return expiryDate.format("DD-MM-YYYY");
             }
             return 'Hết hạn';
@@ -81,13 +81,14 @@ app.engine('hbs', exhbs({
         date: val => moment(val).format("DD-MM-YYYY"),
         dateDetail: val => moment(val).format("DD-MM-YYYY, HH:mm:ss"),
         new: val => {
-            const expiryDate = moment(val);
+            const startDate = moment(val);
             const currentDate = moment();
-            const diffMinute = expiryDate.diff(currentDate,'minutes'); 
-            if (diffMinute <= 30 && diffMinute >= 0) {
+            const diffMinute = startDate.diff(currentDate,'minutes'); 
+            if (diffMinute <= 0 && diffMinute >= -30) {
+                //console.log(diffMinute);
                 return '<li class="product_mark product_new" > new  </li>';
             } 
-            return ''
+            return '';
         }
     },
 

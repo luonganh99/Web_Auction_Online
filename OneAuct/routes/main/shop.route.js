@@ -264,13 +264,12 @@ router.post('/:catID/products/:proID/ban/:userID', restrictUser, async (req,res)
    const condition_2 = {
         ProID: +req.params.proID,
    }
-//    const results = await bidModel.patch_2(entity,condition_1,condition_2);
-//    const singleProduct = await productModel.single(req.params.proID);
    const [singleProduct, user, results] = await Promise.all([
         productModel.single(req.params.proID),
         userModel.single(req.params.userID),
         bidModel.patch_2(entity_state,condition_1,condition_2)
    ])
+
    const entity = {
     to: [
         user.Email
@@ -278,9 +277,14 @@ router.post('/:catID/products/:proID/ban/:userID', restrictUser, async (req,res)
     subject: 'Từ chối ra giá', 
     text: 'Bạn đã bị từ chối ra giá cho sản phẩm ' + singleProduct.ProName
     }
-
     //Gửi email thông báo
     email(entity);
+
+    //Nếu là người giữ giá cao nhất, đổi lại
+    if(singleProduct.BidderID === +req.params.userID) {
+        const keeper = await bidModel.keeper(+req.params.proID);
+        const changeBidder = await productModel.patch({BidderID: keeper.UserID, BidderName: keeper.Username}, {ProID: +req.params.proID} );
+    }
 
     res.redirect(`/shop/${req.params.catID}/products/${req.params.proID}`);
 });
@@ -299,7 +303,7 @@ router.post('/:catID/products/:proID/check/auto',restrictUser, async (req,res) =
             NumBid: +singleProduct.NumBid + 1
         }
 
-        //Nếu max hiện tại == 0
+        //Nếu max hiện tại != 0
         if(product.MaxPrice !== 0) {
             entity_product.CurrentPrice = +product.MaxPrice + +singleProduct.PriceStep;
         } else {
@@ -348,7 +352,10 @@ router.post('/:catID/products/:proID/check/auto',restrictUser, async (req,res) =
 // Đấu giá trực tiếp
 router.post('/:catID/products/:proID/check/direct',restrictUser, async (req,res) => {
     const singleProduct = await productModel.single(req.params.proID);
-    if(singleProduct.CurrentPrice < req.body.Price)
+
+    //Lấy max hiện tại
+    let product = await bidModel.maxPrice(req.params.proID);
+    if(singleProduct.CurrentPrice < req.body.Price )
     {
         //Thay đổi db
         const entity_bid = {
@@ -356,11 +363,11 @@ router.post('/:catID/products/:proID/check/direct',restrictUser, async (req,res)
             UserID: req.session.authUser.UserID,
             Username: req.session.authUser.Username,
             BidTime: moment().format('YYYY-MM-DD , HH:mm:ss'),
-            Price :req.body.Price,
+            Price: req.body.Price,
         }
         const entity_product = {
             CurrentPrice: req.body.Price,
-            BidderID:  req.session.authUser.UserID,
+            BidderID: req.session.authUser.UserID,
             BidderName: req.session.authUser.Username,
             NumBid: +singleProduct.NumBid + 1
         }
@@ -370,27 +377,84 @@ router.post('/:catID/products/:proID/check/direct',restrictUser, async (req,res)
 
         const [bid, products, newBidder, seller, oldBidder] = await Promise.all([
             bidModel.add(entity_bid),
-            productModel.patch(entity_product,condition),
+            productModel.patch(entity_product, condition),
             userModel.single(req.session.authUser.UserID),
             userModel.single(singleProduct.SellerID),
             userModel.single(singleProduct.BidderID)
-        ]) 
+        ])
 
-        const entity = {
-            to: [
-                seller.Email,
-                newBidder.Email,
-                oldBidder.Email
-            ],
-            subject: newBidder.Username + ' đã ra giá thành công sản phẩm ' + singleProduct.ProName, 
-            text: 'Tên người đặt: ' + newBidder.Username + '\n' + 'Tên sản phẩm: ' +  singleProduct.ProName + '\n' + 'Số tiền đặt: ' + entity_product.CurrentPrice + '\n' + 'vnđ'
+        let entity;
+        if(typeof(oldBidder) === 'undefined') {
+            entity = {
+                to: [
+                    seller.Email,
+                    newBidder.Email,
+                ],
+                subject: newBidder.Username + ' đã ra giá thành công sản phẩm ' + singleProduct.ProName,
+                text: 'Tên người đặt: ' + newBidder.Username + '\n' + 'Tên sản phẩm: ' + singleProduct.ProName + '\n' + 'Số tiền đặt: ' + entity_product.CurrentPrice + '\n' + 'vnđ'
+            }
+        } else {
+            entity = {
+                to: [
+                    seller.Email,
+                    newBidder.Email,
+                    oldBidder.Email
+                ],
+                subject: newBidder.Username + ' đã ra giá thành công sản phẩm ' + singleProduct.ProName,
+                text: 'Tên người đặt: ' + newBidder.Username + '\n' + 'Tên sản phẩm: ' + singleProduct.ProName + '\n' + 'Số tiền đặt: ' + entity_product.CurrentPrice + '\n' + 'vnđ'
+            }
         }
+
         //Gửi email thông báo
         email(entity);
 
-        return res.redirect('/user/joininglist');
+        if (typeof (product) !== 'undefined') {
+            //Tự động ra giá lại cho người dùng đặt max cao hơn người dùng mới đặt trực tiếp
+            if (product.MaxPrice > req.body.Price) {
+                const entity_bid = {
+                    ProID: req.params.proID,
+                    UserID: product.UserID,
+                    Username: product.Username,
+                    BidTime: moment().format('YYYY-MM-DD , HH:mm:ss'),
+                    Price: +product.Price + +singleProduct.PriceStep,
+                }
+
+                const entity_product = {
+                    BidderID: product.UserID,
+                    BidderName: product.Username,
+                    NumBid: +singleProduct.NumBid + 1,
+                    Price: +product.Price + +singleProduct.PriceStep
+                }
+
+                const condition = {
+                    ProID: req.params.proID
+                }
+
+                const [bid, products, newBidder, seller, oldBidder] = await Promise.all([
+                    bidModel.add(entity_bid),
+                    productModel.patch(entity_product, condition),
+                    userModel.single(req.session.authUser.UserID),
+                    userModel.single(singleProduct.SellerID),
+                    userModel.single(singleProduct.BidderID)
+                ])
+
+                const entity = {
+                    to: [
+                        seller.Email,
+                        newBidder.Email,
+                        oldBidder.Email
+                    ],
+                    subject: newBidder.Username + ' đã ra giá thành công sản phẩm ' + singleProduct.ProName,
+                    text: 'Tên người đặt: ' + newBidder.Username + '\n' + 'Tên sản phẩm: ' + singleProduct.ProName + '\n' + 'Số tiền đặt: ' + entity_product.CurrentPrice + '\n' + 'vnđ'
+                }
+                //Gửi email thông báo
+                email(entity);
+            }
+        }
+       
     }
-    res.send('err');
+
+    res.redirect('/user/joininglist');
 });
 
 module.exports = router;

@@ -16,11 +16,11 @@
 
 <div class="container mt-5">
 
-<div class="title breadcrumb justify-content-center" style="font-size: 20px;">Đánh giá chi tiết người dùng</div>
+<div class="title breadcrumb justify-content-center" style="font-size: 20px;">Đánh giá chi tiết của  {{mask user.Username}}</div>
 {{#if products.length}} 
 <div class="card mb-4">
                 <div class="card-header d-flex flex-row">
-                    <div class="name">Tổng điểm đánh giá {{mask user.Username}}</div>
+                    <div class="name">Tổng điểm đánh giá: {{user.RateNumber}} </div>
                 </div>
                 <div class="card-body">
                     <div class="infor d-flex flex-row mb-4">
@@ -46,7 +46,7 @@
     {{#each products}}
     <tr>
       <th scope="row"></th>
-      <td>{{Username}}</td>
+      <td>{{mask Username}}</td>
       <td>{{Message}}</td>
       <td>{{#if Grade}} <i class="far fa-thumbs-up"></i> {{else}} <i class="far fa-thumbs-down"></i> {{/if}} </td>
     </tr>
