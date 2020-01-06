@@ -89,7 +89,6 @@ router.get('/:parentID/edit/:catID', async (req, res) => {
 })
 
 router.post('/:parentID/del', async (req,res) => {
-    console.log(req.body);
     const results = await categoryModel.del(req.body.CatID);
     res.redirect(`/admin/categories/${req.params.parentID}`);
 })

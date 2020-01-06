@@ -129,7 +129,6 @@ router.get('/joininglist', async(req,res) => {
             
         }
     }
-    console.log(products);
     res.render('user/joiningList', {
         layout: 'user',
         products,
@@ -260,7 +259,6 @@ router.post('/rate', async (req,res) => {
 })
 
 router.get('/delete', async (req,res) => {
-    console.log(req.query.ProID);
     const results = await wishModel.del_2(req.query.ProID, req.session.authUser.UserID);
     res.redirect('/user/wishlist');
 })
